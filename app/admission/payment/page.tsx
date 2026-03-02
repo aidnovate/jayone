@@ -5,8 +5,9 @@ import { useRouter, useSearchParams } from "next/navigation";
 import style from './style.module.css'
 import Button from "@/app/components/Button";
 import OtherPagesHero from "@/app/components/OtherPagesHero";
+import WithSuspense from "@/app/components/WithSuspense";
 
-export default function Payment() {
+function PaymentContent() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const course = searchParams.get("course") || "Selected Program";
@@ -34,31 +35,25 @@ export default function Payment() {
         title="Purchase Admission Form"
         subtitle="Complete Your Payment to Begin Your Application"
       />
-      
       <div className={style.container}>
         <div className={style.paymentCard}>
           <div className={style.header}>
             <h1>Jayone Prestige School</h1>
             <h2>Admission Form Purchase</h2>
           </div>
-
           <div className={style.details}>
             <div className={style.section}>
               <label>Selected Program</label>
               <p className={style.value}>{decodeURIComponent(course)}</p>
             </div>
-
             <div className={style.divider}></div>
-
             <div className={style.section}>
               <label>Description</label>
               <p className={style.description}>
                 This admission form unlocks your application journey at Jayone Prestige School. After payment, you'll receive access credentials to complete your full application.
               </p>
             </div>
-
             <div className={style.divider}></div>
-
             <div className={style.section}>
               <div className={style.priceBreakdown}>
                 <div className={style.lineItem}>
@@ -71,13 +66,11 @@ export default function Payment() {
                 </div>
               </div>
             </div>
-
             <div className={style.total}>
               <span>Total Amount</span>
               <span className={style.totalPrice}>100 GHS</span>
             </div>
           </div>
-
           <div className={style.actions}>
             <Button
               onClick={payWithPaystack}
@@ -87,7 +80,6 @@ export default function Payment() {
             >
               Pay 100 GHS & Continue
             </Button>
-            
             <Button
               href="/our-programs"
               variant="secondary"
@@ -97,15 +89,21 @@ export default function Payment() {
               Cancel
             </Button>
           </div>
-
           <div className={style.secure}>
             <p>✓ Secure Payment Powered by Paystack</p>
             <p>All transactions are encrypted and secure</p>
           </div>
         </div>
       </div>
-
       <Footer />
     </>
+  );
+}
+
+export default function Payment() {
+  return (
+    <WithSuspense>
+      <PaymentContent />
+    </WithSuspense>
   );
 }
