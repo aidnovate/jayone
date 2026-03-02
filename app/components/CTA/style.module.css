@@ -1,0 +1,29 @@
+.cta {
+  position: relative;
+  height: 50vh;
+  background-image: url('/images/hero2.jpg');
+  background-attachment: fixed;
+  background-size: cover;
+  background-position: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+}
+
+.overlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.452);
+}
+
+.content {
+  position: relative;
+  z-index: 2;
+  color: var(--color-white);
+
+  & h2 {
+  margin-bottom: 32px;
+  color: var(--color-white);
+}
+}

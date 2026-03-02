@@ -1,0 +1,144 @@
+.hero {
+  position: relative;
+  width: 100%;
+  height: 100dvh;
+  overflow: hidden;
+}
+
+/* Slide */
+.slide {
+  position: absolute;
+  inset: 0;
+  background-size: cover;
+  background-position: center;
+  opacity: 0;
+  transform: scale(1.05);
+  transition: opacity 1s ease, transform 1.5s ease;
+}
+
+.slide.active {
+  opacity: 1;
+  transform: scale(1);
+  z-index: 1;
+}
+
+/* Overlay */
+.overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    to right,
+    rgba(0, 0, 0, 0.55),
+    rgba(0, 0, 0, 0.25)
+  );
+}
+
+/* Content */
+.content {
+  position: relative;
+  z-index: 2;
+  height: 100%;
+  max-width: 600px;
+  padding: 0 80px;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+
+  color: var(--color-white);
+  animation: fadeUp 1s ease forwards;
+}
+
+/* Label */
+.label {
+  text-transform: uppercase;
+  letter-spacing: 3px;
+  font-size: 12px;
+  margin-bottom: 16px;
+  color: var(--color-primary-400);
+  font-family: var(--font-body);
+}
+
+/* Typography */
+.content h1 {
+  font-family: var(--font-heading);
+  font-size: clamp(2.5rem, 5vw, 4rem);
+  line-height: 1.1;
+  margin-bottom: 16px;
+}
+
+.content p {
+  font-family: var(--font-body);
+  font-size: 1.1rem;
+  color: #f1f1f1;
+  margin-bottom: 32px;
+  max-width: 480px;
+}
+
+/* CTA Actions */
+.actions {
+  display: flex;
+  gap: 16px;
+}
+
+/* Dots */
+.dots {
+  position: absolute;
+  right: 40px;
+  top: 50%;
+  transform: translateY(-50%);
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  z-index: 5;
+}
+
+.dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.4);
+  border: none;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.activeDot {
+  background: var(--color-primary-500);
+  transform: scale(1.3);
+}
+
+/* Animations */
+@keyframes fadeUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Responsive */
+@media screen and (max-width: 768px) {
+    .hero{
+        height: 90dvh;
+    }
+  .content {
+    padding: 0 24px;
+  }
+
+  .dots {
+    flex-direction: row;
+    bottom: 30px;
+    top: auto;
+    right: 50%;
+    transform: translateX(50%);
+  }
+
+  .actions {
+    flex-direction: column;
+    width: 100%;
+  }
+}

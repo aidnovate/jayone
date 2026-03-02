@@ -1,0 +1,95 @@
+.section {
+  padding: 180px 100px;
+  background: var(--color-white);
+  box-sizing: border-box;
+}
+
+.header {
+  margin-bottom: 120px;
+  max-width: 600px;
+}
+
+/* Editorial Masonry Grid */
+
+.masonry {
+  column-count: 3;
+  column-gap: 40px;
+}
+
+.item {
+  position: relative;
+  margin-bottom: 40px;
+  break-inside: avoid;
+  height: 500px;
+  overflow: hidden;
+  cursor: pointer;
+  border-radius: 4px;
+}
+
+.image {
+  object-fit: cover;
+  transition: transform 1.2s ease;
+}
+
+.item:hover .image {
+  transform: scale(1.08);
+}
+
+/* Luxury Overlay */
+
+.overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    to top,
+    rgba(0,0,0,0.8),
+    rgba(0,0,0,0.1)
+  );
+  display: flex;
+  align-items: flex-end;
+  padding: 40px;
+  opacity: 0;
+  transition: opacity .6s ease;
+}
+
+.item:hover .overlay {
+  opacity: 1;
+}
+
+.overlay span {
+  color: var(--color-white);
+  font-family: var(--font-heading);
+  font-size: 1.6rem;
+}
+
+/* Footer link */
+
+.footer {
+  margin-top: 80px;
+}
+
+.footer a {
+  font-family: var(--font-body);
+  font-size: 0.9rem;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  color: var(--color-primary-500);
+}
+
+/* Responsive */
+
+@media (max-width: 1024px) {
+  .masonry {
+    column-count: 2;
+  }
+}
+
+@media (max-width: 768px) {
+  .section {
+    padding: 120px 24px;
+  }
+
+  .masonry {
+    column-count: 1;
+  }
+}

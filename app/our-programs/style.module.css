@@ -1,0 +1,45 @@
+.programs {
+  padding: 8rem 5%;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  gap: 3rem;
+  background: var(--color-gray-100);
+}
+
+.card {
+  background: var(--color-gray-100);
+  padding: 1rem;
+  border-radius: 20px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  transition: 0.4s ease-in-out;
+}
+
+.card:hover {
+  transform: translateY(-10px);
+  box-shadow: 4px 4px 16px rgba(109, 109, 109, 0.233);
+}
+
+.card h2 {
+  font-size: 1.8rem;
+  margin-bottom: 1rem;
+}
+
+.card p {
+  color: var(--color-gray-700);
+  margin-bottom: 2rem;
+}
+
+.card button {
+  background: var(--color-primary-500);
+  border: none;
+  padding: 1rem 2rem;
+  font-weight: 600;
+  border-radius: 10px;
+  cursor: pointer;
+}
+
+.card button:hover {
+  color: #fff;
+}

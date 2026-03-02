@@ -1,0 +1,125 @@
+.contactLuxury {
+  padding: 8rem 5%;
+  background: var(--color-gray-900);
+  color: #fff;
+  text-align: center;
+  position: relative;
+}
+
+.contactWrapper {
+  max-width: 900px;
+  margin: auto;
+}
+
+.contactIntro h2 {
+  font-size: 3.5rem;
+  font-weight: 300;
+  margin-bottom: 1rem;
+  letter-spacing: -1px;
+}
+
+.contactIntro h2 span {
+  color: var(--color-primary-500);
+}
+
+.contactIntro p {
+  color: #999;
+  margin-bottom: 3rem;
+}
+
+.revealBtn {
+  padding: 1rem 2.5rem;
+  background: transparent;
+  border: 1px solid var(--color-primary-500);
+  color: var(--color-primary-500);
+  font-size: 1rem;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: all 0.4s ease;
+}
+
+.revealBtn:hover {
+  background: var(--color-primary-500);
+  color: #000;
+}
+
+.contactOption p {
+  margin-bottom: 2rem;
+  font-size: 1.2rem;
+}
+
+.contactChoices {
+  display: flex;
+  gap: 2rem;
+  justify-content: center;
+}
+
+.contactChoices button {
+  background: none;
+  border: none;
+  color: #fff;
+  font-size: 1rem;
+  letter-spacing: 1px;
+  position: relative;
+  cursor: pointer;
+}
+
+.contactChoices button::after {
+  content: "";
+  position: absolute;
+  bottom: -6px;
+  left: 0;
+  width: 0;
+  height: 2px;
+  background: var(--color-primary-500);
+  transition: width 0.4s ease;
+}
+
+.contactChoices button:hover::after {
+  width: 100%;
+}
+
+.contactForm {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  margin-top: 2rem;
+}
+
+.contactForm input,
+.contactForm textarea {
+  background: transparent;
+  border: 1px solid #333;
+  padding: 1rem;
+  color: #fff;
+  font-family: inherit;
+}
+
+.submitBtn {
+  background: var(--color-primary-500);
+  color: #000;
+  border: none;
+  padding: 1rem;
+  cursor: pointer;
+  font-weight: 600;
+  transition: transform 0.3s ease;
+}
+
+.submitBtn:hover {
+  transform: scale(1.05);
+}
+
+.contactVisit h4 {
+  margin-top: 1rem;
+  font-weight: 400;
+}
+
+.fadeIn {
+  animation: fade 0.6s ease forwards;
+}
+
+@keyframes fade {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}

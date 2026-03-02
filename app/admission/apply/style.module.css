@@ -1,0 +1,122 @@
+.verificationContainer {
+  width: 100%;
+  min-height: 70vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 4rem 5%;
+  background: linear-gradient(135deg, #f8f9fa 0%, #ffffff 100%);
+}
+
+.verificationCard {
+  width: 100%;
+  max-width: 500px;
+  padding: 3rem;
+  background: #fff;
+  border-radius: 15px;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+}
+
+.verificationCard h2 {
+  font-size: 1.8rem;
+  margin-bottom: 0.5rem;
+  color: #1a1a1a;
+}
+
+.subtitle {
+  font-size: 0.95rem;
+  color: #888;
+  margin-bottom: 2rem;
+  line-height: 1.6;
+}
+
+.inputGroup {
+  margin-bottom: 1.5rem;
+  display: flex;
+  flex-direction: column;
+}
+
+.inputGroup label {
+  font-weight: 600;
+  margin-bottom: 0.5rem;
+  color: #1a1a1a;
+  font-size: 0.95rem;
+}
+
+.inputGroup input {
+  padding: 0.8rem 1rem;
+  border: 2px solid #e0e0e0;
+  border-radius: 8px;
+  font-size: 0.95rem;
+  font-family: inherit;
+  transition: all 0.3s ease;
+}
+
+.inputGroup input:focus {
+  outline: none;
+  border-color: var(--color-primary-500);
+  box-shadow: 0 0 0 3px rgba(211, 55, 100, 0.1);
+}
+
+.inputGroup input::placeholder {
+  color: #bbb;
+}
+
+.verifyBtn {
+  width: 100%;
+  padding: 0.9rem;
+  background: var(--color-primary-500);
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  font-size: 0.95rem;
+  margin-top: 1rem;
+}
+
+.verifyBtn:hover:not(:disabled) {
+  background: var(--color-primary-900);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(211, 55, 100, 0.3);
+}
+
+.verifyBtn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.helpText {
+  text-align: center;
+  margin-top: 1.5rem;
+  font-size: 0.85rem;
+  color: #888;
+}
+
+.helpText a {
+  color: var(--color-primary-500);
+  text-decoration: none;
+  font-weight: 600;
+  transition: color 0.3s ease;
+}
+
+.helpText a:hover {
+  color: var(--color-primary-900);
+  text-decoration: underline;
+}
+
+@media (max-width: 640px) {
+  .verificationContainer {
+    padding: 2rem 5%;
+    min-height: auto;
+  }
+
+  .verificationCard {
+    padding: 1.5rem;
+  }
+
+  .verificationCard h2 {
+    font-size: 1.5rem;
+  }
+}
