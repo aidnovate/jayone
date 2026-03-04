@@ -1,7 +1,7 @@
 import { NextPage } from "next";
 import styles from "./style.module.css";
-import Footer from "../components/Footer";
-import OtherPagesHero from "../components/OtherPagesHero";
+import Footer from "./../../components/Footer/index";
+import OtherPagesHero from "./../../components/OtherPagesHero/index";
 
 const About: NextPage = () => {
   return (

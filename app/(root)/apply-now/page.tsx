@@ -3,7 +3,6 @@ import style from './page.module.css'
 import OtherPagesHero from '../../components/OtherPagesHero'
 import Button from '../../components/Button'
 import Footer from '../../components/Footer'
-import Link from 'next/link'
 
 const page = () => {
   return (

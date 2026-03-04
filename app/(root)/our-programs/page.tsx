@@ -1,7 +1,7 @@
 import Link from "next/link";
 import styles from "./style.module.css";
 import OtherPagesHero from "../../components/OtherPagesHero";
-import Footer from "../../components/Footer";
+import Footer from "./../../components/Footer/index";
 
 const programs = [
   {
