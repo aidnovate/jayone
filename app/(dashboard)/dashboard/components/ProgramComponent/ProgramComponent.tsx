@@ -1,11 +1,13 @@
 "use client"
 
 import React, { useState } from 'react';
+import dynamic from 'next/dynamic';
 import { Pencil, Trash2, Eye, Plus } from 'lucide-react';
 import styles from './ProgramComponent.module.css';
 import Modal from './Modal';
-import ProgramEditor from './ProgramEditor';
 import Button from '@/app/components/Button';
+
+const ProgramEditor = dynamic(() => import('./ProgramEditor'), { ssr: false });
 
 const initialPrograms = [
   {

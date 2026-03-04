@@ -1,11 +1,13 @@
 "use client"
 
 import React, { useState } from 'react';
+import dynamic from 'next/dynamic';
 import { Pencil, Trash2, Eye, Plus } from 'lucide-react';
 import styles from './EventTable.module.css';
 import Modal from './Modal';
-import EventEditor from './EventEditor';
 import Button from '@/app/components/Button';
+
+const EventEditor = dynamic(() => import('./EventEditor'), { ssr: false });
 
 const initialEvents = [
   {
