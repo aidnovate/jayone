@@ -9,9 +9,12 @@
     "lint": "eslint"
   },
   "dependencies": {
+    "@blocknote/core": "^0.47.1",
+    "@blocknote/react": "^0.47.1",
     "clsx": "^2.1.1",
     "lucide-react": "^0.564.0",
     "next": "16.1.6",
+    "quill": "^2.0.3",
     "react": "19.2.3",
     "react-dom": "19.2.3"
   },

@@ -1,3 +1,4 @@
+import Link from 'next/link'
 import style from './style.module.css'
 
 export default function Footer() {
@@ -19,10 +20,13 @@ export default function Footer() {
         </div>
 
         <div className={style.footerLinks}>
-          <a href="#">Programs</a>
-          <a href="#">Student Works</a>
-          <a href="#">Apply</a>
-          <a href="#">Contact</a>
+          <Link href="/programs">Programs</Link>
+          <Link href="/gallery">Student Works</Link>
+          <Link href="/blogs">Blogs</Link>
+          <Link href="/events">Events</Link>
+          
+          <Link href="/apply">Apply</Link>
+          <Link href="/contact">Contact</Link>
         </div>
 
         <div className={style.footerSocial}>

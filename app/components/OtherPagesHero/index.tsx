@@ -20,6 +20,7 @@ const OtherPagesHero: React.FC<Props> = ({
   ctaLink,
 }) => {
   const [loaded, setLoaded] = useState(false);
+  
 
   useEffect(() => {
     setTimeout(() => setLoaded(true), 200);

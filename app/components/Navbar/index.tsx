@@ -5,6 +5,8 @@ import style from './style.module.css'
 import Link from 'next/link'
 import Button from '../Button'
 import { Menu } from 'lucide-react'
+import logo from '@/public/images/logo.png'
+import Image from 'next/image'
 
 const Navbar = () => {
 
@@ -35,14 +37,16 @@ const Navbar = () => {
     <div className={`${style.navbar} ${scrolled ? style.scrolled : ""}`}>
         <div className={`${style.wrapper} ${scrolled ? style.wrapperScrolled : ""}`}>
             <div className={style.logo}>
-                <Link href="/">JayOne</Link>
+                <Link href="/">
+                <Image src={logo} alt="JayOne Prestige School" width={50} height={50} />
+                </Link>
             </div>
 
             <div className={style.navLinks}>
                 <Link href="/">Home</Link>
                 <Link href="/about-us">About Us</Link>
                 <Link href="/our-programs">Programs</Link>
-                <Link href="/contact-us">Contact us</Link>
+                <Link href="/apply-now">Contact us</Link>
             </div>
 
             <div className={style.navBtn}>

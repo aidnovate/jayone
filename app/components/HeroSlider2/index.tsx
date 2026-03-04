@@ -19,21 +19,21 @@ const slides: Slide[] = [
     title: 'Where Fashion Begins',
     subtitle: 'Learn couture, tailoring, and modern fashion design from professionals.',
     cta: 'Apply Now',
-    image: '/images/hero1.jpg',
+    image: '/images/hero1.png',
   },
   {
     id: 2,
     title: 'Design. Create. Inspire.',
     subtitle: 'Turn creativity into a career with hands-on fashion education.',
     cta: 'View Programs',
-    image: '/images/hero2.jpg',
+    image: '/images/hero2.png',
   },
   {
     id: 3,
     title: 'Your Style, Your Future',
     subtitle: 'Join a fashion school that builds confidence and craftsmanship.',
     cta: 'Join the School',
-    image: '/images/hero3.jpg',
+    image: '/images/hero4.png',
   },
 ]
 

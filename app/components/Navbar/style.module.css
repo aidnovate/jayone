@@ -5,8 +5,7 @@
     flex-direction: column;
     align-items: center;
     justify-content: center;
-
-    position: fixed;      /* 🔥 makes it stay on top */
+    position: fixed;
     top: 0;
     left: 0;
     z-index: 1000;
@@ -37,7 +36,7 @@
     padding: 10px;
     box-sizing: border-box;
 
-    transition: all 0.4s ease; /* 🔥 important */
+    transition: all 0.4s ease;
 }
 
 .wrapperScrolled {
@@ -55,8 +54,13 @@
     margin: 0;
 
     & a {
-        color: #000;
-        font-weight: 700;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    & a img {
+        object-fit: contain;
     }
 }
 

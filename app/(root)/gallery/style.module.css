@@ -1,0 +1,30 @@
+
+.gallery {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 2rem;
+  padding: 2.5rem 0;
+}
+.image {
+  width: 100%;
+  height: 260px;
+  object-fit: cover;
+  border-radius: 18px;
+  box-shadow: 0 8px 32px rgba(0,0,0,0.14);
+  position: relative;
+  transition: box-shadow 0.3s, transform 0.3s, filter 0.3s;
+  cursor: pointer;
+}
+.image:hover {
+  box-shadow: 0 16px 48px rgba(0,0,0,0.22);
+  transform: scale(1.04) translateY(-4px);
+  filter: brightness(0.93) saturate(1.1);
+}
+.title {
+  text-align: center;
+  margin: 2.5rem 0 1.5rem 0;
+  font-size: 2.3rem;
+  font-weight: 700;
+  letter-spacing: 0.01em;
+  color: #222;
+}

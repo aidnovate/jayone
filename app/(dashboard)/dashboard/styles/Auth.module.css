@@ -1,0 +1,74 @@
+.authBg {
+  min-height: 100vh;
+  background: var(--primary-bg);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.form {
+  background: var(--secondary-bg);
+  padding: 2.5rem 2.5rem 2rem 2.5rem;
+  border-radius: 16px;
+  box-shadow: 0 4px 32px rgba(0,0,0,0.18);
+  display: flex;
+  flex-direction: column;
+  min-width: 340px;
+  color: var(--text);
+}
+
+.form h2 {
+  margin-bottom: 2rem;
+  color: var(--primary);
+  font-size: 1.5rem;
+  font-weight: 700;
+  text-align: center;
+}
+
+.form input {
+  margin-bottom: 1.2rem;
+  padding: 0.9rem 1rem;
+  border-radius: 8px;
+  border: 1px solid var(--border);
+  background: var(--primary-bg);
+  color: var(--text);
+  font-size: 1rem;
+  outline: none;
+  transition: border 0.2s;
+}
+
+.form input:focus {
+  border: 1.5px solid var(--primary);
+}
+
+.form button {
+  background: var(--primary);
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  padding: 0.9rem 1rem;
+  font-size: 1.08rem;
+  font-weight: 600;
+  cursor: pointer;
+  margin-bottom: 0.5rem;
+  transition: background 0.2s;
+}
+
+.form button:hover {
+  background: var(--primary-hover);
+}
+
+.links {
+  text-align: center;
+  margin-top: 0.5rem;
+}
+
+.links a {
+  color: var(--primary);
+  text-decoration: none;
+  font-size: 0.98rem;
+}
+
+.links a:hover {
+  text-decoration: underline;
+}

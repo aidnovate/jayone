@@ -1,11 +1,15 @@
 .hero {
   position: relative;
+  width: 100%;
   min-height: 70vh;
   max-height: 80dvh;
   display: flex;
   align-items: center;
   justify-content: center;
   overflow: hidden;
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center;
 }
 
 .hero.loaded {
@@ -32,6 +36,7 @@
   padding: 2rem;
   animation: fadeUp 1.2s ease forwards;
   opacity: 0;
+  height: calc(100% - 80px);
 }
 
 .hero.loaded .content {
