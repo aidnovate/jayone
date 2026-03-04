@@ -4,7 +4,12 @@ import { useEffect, useRef, useState } from "react";
 import Quill from "quill";
 import "quill/dist/quill.snow.css";
 
-export default function EventEditor({ initialContent, onSave }) {
+interface EventEditorProps {
+  initialContent?: string;
+  onSave: (data: { title: string; date: string; image: string; content: string }) => void;
+}
+
+export default function EventEditor({ initialContent, onSave }: EventEditorProps) {
   const editorRef = useRef<HTMLDivElement | null>(null);
   const quillRef = useRef<Quill | null>(null);
 
@@ -37,7 +42,7 @@ export default function EventEditor({ initialContent, onSave }) {
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
 
-    const content = quillRef.current?.root.innerHTML;
+    const content = quillRef.current?.root.innerHTML ?? "";
 
     onSave({
       title,

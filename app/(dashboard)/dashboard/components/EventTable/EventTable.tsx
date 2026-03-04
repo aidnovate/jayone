@@ -38,7 +38,7 @@ export default function EventTable() {
     setSelected(null);
   };
 
-  const handleSave = (content: string) => {
+  const handleSave = (data: { title: string; date: string; image: string; content: string }) => {
     // For demo, just close modal. You can add logic to update events.
     closeModal();
   };

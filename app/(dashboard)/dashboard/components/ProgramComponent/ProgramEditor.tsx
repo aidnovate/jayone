@@ -39,7 +39,7 @@ export default function ProgramEditor({ initialData, onSave }: {
     setLearn(updated);
   };
   const addLearn = () => setLearn([...learn, '']);
-  const removeLearn = (idx: number) => setLearn(learn.filter((_, i) => i !== idx));
+  const removeLearn = (idx: number) => setLearn(learn.filter((_: string, i: number) => i !== idx));
 
   const handleFeatureChange = (idx: number, key: 'heading'|'text', value: string) => {
     const updated = [...features];
@@ -47,7 +47,7 @@ export default function ProgramEditor({ initialData, onSave }: {
     setFeatures(updated);
   };
   const addFeature = () => setFeatures([...features, { heading: '', text: '' }]);
-  const removeFeature = (idx: number) => setFeatures(features.filter((_, i) => i !== idx));
+  const removeFeature = (idx: number) => setFeatures(features.filter((_: { heading: string; text: string }, i: number) => i !== idx));
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -72,7 +72,7 @@ export default function ProgramEditor({ initialData, onSave }: {
       </div>
       <div style={{marginBottom:'1rem'}}>
         <label>What You'll Learn</label>
-        {learn.map((item, idx) => (
+        {learn.map((item: string, idx: number) => (
           <div key={idx} style={{display:'flex',alignItems:'center',marginBottom:'0.5rem'}}>
             <input type="text" value={item} onChange={e => handleLearnChange(idx, e.target.value)} style={{flex:1,padding:'0.5rem',borderRadius:'6px',border:'1px solid #333'}} />
             <button type="button" onClick={() => removeLearn(idx)} style={removeBtnStyle}>Remove</button>
@@ -82,7 +82,7 @@ export default function ProgramEditor({ initialData, onSave }: {
       </div>
       <div style={{marginBottom:'1rem'}}>
         <label>Program Features</label>
-        {features.map((feature, idx) => (
+        {features.map((feature: { heading: string; text: string }, idx: number) => (
           <div key={idx} style={{display:'flex',gap:'0.5rem',marginBottom:'0.5rem'}}>
             <input type="text" placeholder="Feature Heading" value={feature.heading} onChange={e => handleFeatureChange(idx, 'heading', e.target.value)} style={{flex:1,padding:'0.5rem',borderRadius:'6px',border:'1px solid #333'}} />
             <input type="text" placeholder="Feature Text" value={feature.text} onChange={e => handleFeatureChange(idx, 'text', e.target.value)} style={{flex:2,padding:'0.5rem',borderRadius:'6px',border:'1px solid #333'}} />
