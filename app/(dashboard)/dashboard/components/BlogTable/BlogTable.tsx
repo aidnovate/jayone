@@ -36,7 +36,7 @@ export default function BlogTable() {
     setSelected(null);
   };
 
-  const handleSave = (content: string) => {
+  const handleSave = (data: { title: string; image: string; content: string }) => {
     // For demo, just close modal. You can add logic to update blogs.
     closeModal();
   };

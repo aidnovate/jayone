@@ -3,17 +3,19 @@ import React, { useEffect, useRef, useState } from 'react';
 import Quill from 'quill';
 import 'quill/dist/quill.snow.css';
 
-export default function BlogEditor({ initialContent, onSave }: {
+interface BlogEditorProps {
   initialContent?: string;
-  onSave: (content: string) => void;
-}) {
+  onSave: (data: { title: string; image: string; content: string }) => void;
+}
+
+export default function BlogEditor({ initialContent, onSave }: BlogEditorProps) {
   const [title, setTitle] = useState('');
   const [image, setImage] = useState('');
   const editorRef = useRef<HTMLDivElement | null>(null);
   const quillRef = useRef<Quill | null>(null);
 
   useEffect(() => {
-    if (editorRef.current && !quillRef.current) {
+    if (typeof window !== 'undefined' && editorRef.current && !quillRef.current) {
       quillRef.current = new Quill(editorRef.current, {
         theme: 'snow',
         placeholder: 'Write your blog content here...',
@@ -36,7 +38,7 @@ export default function BlogEditor({ initialContent, onSave }: {
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     const content = quillRef.current?.root.innerHTML || '';
-    onSave(content);
+    onSave({ title, image, content });
   };
 
   return (
