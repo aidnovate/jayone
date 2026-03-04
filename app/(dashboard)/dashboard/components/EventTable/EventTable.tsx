@@ -12,14 +12,14 @@ const initialEvents = [
     id: 1,
     title: 'Fashion Business Workshop',
     date: '2026-03-10',
-    image: '/images/event1.jpg',
+    image: '/images/hero1.jpg',
     content: 'A hands-on workshop for aspiring fashion entrepreneurs.'
   },
   {
     id: 2,
     title: 'Tailoring Masterclass',
     date: '2026-04-15',
-    image: '/images/event2.jpg',
+    image: '/images/hero2.jpg',
     content: 'Learn advanced tailoring techniques from industry experts.'
   }
 ];

@@ -11,13 +11,13 @@ const initialBlogs = [
   {
     id: 1,
     title: 'How to Start a Fashion Brand',
-    image: '/images/blog1.jpg',
+    image: '/images/hero1.jpg',
     content: 'Learn the essentials of launching your own fashion brand from scratch.'
   },
   {
     id: 2,
     title: 'Top Tailoring Techniques',
-    image: '/images/blog2.jpg',
+    image: '/images/hero2.jpg',
     content: 'Discover the best tailoring techniques used by professionals.'
   }
 ];
