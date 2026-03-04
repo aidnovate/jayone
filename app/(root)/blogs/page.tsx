@@ -45,7 +45,7 @@ export default function BlogPage() {
               "@type": "BlogPosting",
               "headline": blogPosts[0].title,
               "description": blogPosts[0].summary,
-              "image": `https://jayone.com${blogPosts[0].image}`,
+              "image": `https://jayoneprestige.com${blogPosts[0].image}`,
               "author": {
                 "@type": "Organization",
                 "name": "Jayone Prestige School of Fashion"
@@ -55,12 +55,12 @@ export default function BlogPage() {
                 "name": "Jayone Prestige School of Fashion",
                 "logo": {
                   "@type": "ImageObject",
-                  "url": "https://jayone.com/images/hero1.jpg"
+                  "url": "https://jayoneprestige.com/images/hero1.jpg"
                 }
               },
               "mainEntityOfPage": {
                 "@type": "WebPage",
-                "@id": "https://jayone.com/blogs"
+                "@id": "https://jayoneprestige.com/blogs"
               }
             })
           }}

@@ -36,7 +36,7 @@ export const metadata: Metadata = {
   openGraph: {
     title: "Jayone Prestige School of Fashion",
     description: "Crafting Designers. Building Futures. Join Ghana's leading fashion school for design, tailoring, and business programs.",
-    url: "https://jayone.com",
+    url: "https://jayoneprestige.com",
     siteName: "Jayone Prestige School of Fashion",
     images: [
       {
@@ -61,7 +61,7 @@ export const metadata: Metadata = {
       }
     ]
   },
-  metadataBase: new URL("https://jayone.com"),
+  metadataBase: new URL("https://jayoneprestige.com"),
   alternates: {
     canonical: "/",
     languages: {
@@ -88,13 +88,13 @@ export default function RootLayout({
         <meta name="business:contact_data:region" content="Ashanti" />
         <meta name="business:contact_data:postal_code" content="00233" />
         <meta name="business:contact_data:country_name" content="Ghana" />
-        <meta name="business:contact_data:email" content="info@jayone.com" />
+        <meta name="business:contact_data:email" content="info@jayoneprestige.com" />
         <meta name="business:contact_data:phone_number" content="+233-XXX-XXXXXX" />
         <meta property="og:locale" content="en_GB" />
         <meta property="og:type" content="website" />
         <meta property="og:site_name" content="Jayone Prestige School of Fashion" />
-        <meta property="og:url" content="https://jayone.com" />
-        <meta property="og:image" content="https://jayone.com/images/hero1.jpg" />
+        <meta property="og:url" content="https://jayoneprestige.com" />
+        <meta property="og:image" content="https://jayoneprestige.com/images/hero1.jpg" />
         <meta property="og:image:width" content="1200" />
         <meta property="og:image:height" content="630" />
         <meta property="og:image:alt" content="Jayone Prestige School of Fashion Hero Image" />
@@ -102,7 +102,7 @@ export default function RootLayout({
         <meta name="twitter:site" content="@jayonefashion" />
         <meta name="twitter:title" content="Jayone Prestige School of Fashion" />
         <meta name="twitter:description" content="Crafting Designers. Building Futures. Join Ghana's leading fashion school for design, tailoring, and business programs." />
-        <meta name="twitter:image" content="https://jayone.com/images/hero1.jpg" />
+        <meta name="twitter:image" content="https://jayoneprestige.com/images/hero1.jpg" />
         <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
         <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
         <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png" />
@@ -113,8 +113,8 @@ export default function RootLayout({
             "@context": "https://schema.org",
             "@type": "EducationalOrganization",
             "name": "Jayone Prestige School of Fashion",
-            "url": "https://jayone.com",
-            "logo": "https://jayone.com/images/hero1.jpg",
+            "url": "https://jayoneprestige.com",
+            "logo": "https://jayoneprestige.com/images/hero1.jpg",
             "description": "Jayone Prestige School of Fashion: Crafting Designers. Building Futures. Learn, create, and excel in fashion design, tailoring, and business.",
             "address": {
               "@type": "PostalAddress",

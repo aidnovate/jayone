@@ -50,7 +50,7 @@ export default function EventsPage() {
               "name": events[0].title,
               "startDate": events[0].date,
               "description": events[0].description,
-              "image": `https://jayone.com${events[0].image}`,
+              "image": `https://jayoneprestige.com${events[0].image}`,
               "location": {
                 "@type": "Place",
                 "name": "Jayone Prestige School of Fashion",
@@ -66,7 +66,7 @@ export default function EventsPage() {
               "organizer": {
                 "@type": "Organization",
                 "name": "Jayone Prestige School of Fashion",
-                "url": "https://jayone.com"
+                "url": "https://jayoneprestige.com"
               }
             })
           }}

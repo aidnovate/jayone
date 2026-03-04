@@ -1,23 +1,23 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
-    <loc>https://jayone.com/</loc>
+    <loc>https://jayoneprestige.com/</loc>
     <priority>1.0</priority>
   </url>
   <url>
-    <loc>https://jayone.com/about-us</loc>
+    <loc>https://jayoneprestige.com/about-us</loc>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://jayone.com/our-programs</loc>
+    <loc>https://jayoneprestige.com/our-programs</loc>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://jayone.com/blogs</loc>
+    <loc>https://jayoneprestige.com/blogs</loc>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://jayone.com/events</loc>
+    <loc>https://jayoneprestige.com/events</loc>
     <priority>0.7</priority>
   </url>
 </urlset>
