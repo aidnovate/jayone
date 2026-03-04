@@ -1,11 +1,13 @@
 "use client"
 
 import React, { useState } from 'react';
+import dynamic from 'next/dynamic';
 import { Pencil, Trash2, Eye, Plus } from 'lucide-react';
 import styles from './BlogTable.module.css';
 import Modal from './Modal';
-import BlogEditor from './BlogEditor';
 import Button from '@/app/components/Button';
+
+const BlogEditor = dynamic(() => import('./BlogEditor'), { ssr: false });
 
 const initialBlogs = [
   {
