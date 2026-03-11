@@ -1,6 +1,6 @@
 "use client"
 
-import React, { useEffect, useState } from 'react';
+import React, { Suspense, useEffect, useState } from 'react';
 import { useSearchParams } from 'next/navigation';
   import axios from 'axios';
 import Button from '@/app/components/Button';
@@ -11,7 +11,7 @@ type PaymentDetails = {
   [key: string]: any;
 };
 
-export default function SuccessPage() {
+ function AdmissionSuccessPage() {
   const searchParams = useSearchParams();
   const reference = searchParams.get('reference');
   const course = searchParams.get('course');
@@ -23,8 +23,6 @@ export default function SuccessPage() {
   const [saved, setSaved] = useState(false);
   const [emailSent, setEmailSent] = useState(true);
   const [alreadyProcessed, setAlreadyProcessed] = useState(false);
-  
-  console.log(useSearchParams().toString());
 
 
   useEffect(() => {
@@ -116,5 +114,13 @@ export default function SuccessPage() {
         </div>
       )}
     </div>
+  );
+}
+
+export default function SuccessPage() {
+  return (
+    <Suspense>
+      <AdmissionSuccessPage />
+    </Suspense>
   );
 }
