@@ -29,7 +29,7 @@ const page = () => {
             <div className={style.buttonWrapper}>
               <h3>Purchase Admission Form</h3>
               <p>New applicants start here. Purchase your admission form and unlock your application journey.</p>
-              <Button href="/our-programs" variant="secondary" size="lg">
+              <Button href="/admission/payment" variant="secondary" size="lg">
                 Purchase Admission Form
               </Button>
             </div>

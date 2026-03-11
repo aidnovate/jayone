@@ -6,6 +6,7 @@
   justify-content: center;
   padding: 4rem 5%;
   background: linear-gradient(135deg, #f8f9fa 0%, #ffffff 100%);
+  border: 3px solid red;
 }
 
 .paymentCard {
@@ -55,10 +56,12 @@
 }
 
 .value {
-  font-size: 1.2rem;
+  font-size: 1rem;
   color: #1a1a1a;
-  font-weight: 600;
   margin: 0;
+  width: 100%;
+  padding: 8px;
+  box-sizing: border-box;
 }
 
 .description {

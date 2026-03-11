@@ -1,11 +1,18 @@
 import DashboardLayout from '../components/Layout/DashboardLayout';
-import React from 'react';
+import AdmissionsTable from './../components/Admissionstable/Admissionstable';
 
 export default function AdmissionsPage() {
   return (
     <DashboardLayout active="Admissions">
-      <h1>Admissions</h1>
-      <p style={{marginTop: '1.5rem', color: '#b3b3b3'}}>Manage and view all admissions here.</p>
+      <div style={{ display: 'flex', alignItems: 'baseline', justifyContent: 'space-between', marginBottom: '1.8rem', flexWrap: 'wrap', gap: 8 }}>
+        <div>
+          <h1 style={{ margin: 0 }}>Admissions</h1>
+          <p style={{ marginTop: '0.4rem', color: '#636363', fontSize: '0.9rem' }}>
+            View and manage all student applications.
+          </p>
+        </div>
+      </div>
+      <AdmissionsTable />
     </DashboardLayout>
   );
 }

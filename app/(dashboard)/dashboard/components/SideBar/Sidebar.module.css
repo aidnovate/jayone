@@ -1,5 +1,5 @@
 .sidebar {
-  width: var(--sidebar-width);
+  width: 230px;
   background: #fff;
   color: var(--text);
   height: 100vh;
