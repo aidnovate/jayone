@@ -7,7 +7,7 @@ import axios from 'axios';
 const currentYear = new Date().getFullYear();
 const years = Array.from({ length: 5 }, (_, i) => currentYear - i);
 
-const API_URL = 'https://jayone-87f0a69e6159.herokuapp.com/api/payments';
+const API_URL = 'https://jayone-87f0a69e6159.herokuapp.com/api/payments/';
 
 interface Form {
   fullName: string;
