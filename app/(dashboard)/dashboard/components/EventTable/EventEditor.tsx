@@ -3,10 +3,11 @@
 import { useEffect, useRef, useState } from "react";
 import Quill from "quill";
 import "quill/dist/quill.snow.css";
+import Button from "@/app/components/Button";
 
-interface EventEditorProps {
+export interface EventEditorProps {
   initialContent?: string;
-  onSave: (data: { title: string; date: string; image: string; content: string }) => void;
+  onSave: (data: { title: string; date: string; image: File | null; content: string }) => void;
 }
 
 export default function EventEditor({ initialContent, onSave }: EventEditorProps) {
@@ -15,7 +16,7 @@ export default function EventEditor({ initialContent, onSave }: EventEditorProps
 
   const [title, setTitle] = useState("");
   const [date, setDate] = useState("");
-  const [image, setImage] = useState("");
+  const [image, setImage] = useState<File | null>(null);
 
   useEffect(() => {
     if (editorRef.current && !quillRef.current) {
@@ -72,10 +73,9 @@ export default function EventEditor({ initialContent, onSave }: EventEditorProps
       />
 
       <input
-        type="text"
-        placeholder="Image URL"
-        value={image}
-        onChange={(e) => setImage(e.target.value)}
+        type="file"
+        accept="image/*"
+        onChange={e => setImage(e.target.files ? e.target.files[0] : null)}
         style={inputStyle}
       />
 
@@ -84,9 +84,9 @@ export default function EventEditor({ initialContent, onSave }: EventEditorProps
         style={{ height: "300px", marginBottom: "2rem" }}
       />
 
-      <button type="submit" style={buttonStyle}>
+      <Button variant="primary" size="md" fullWidth={true} type="submit">
         Save Event
-      </button>
+      </Button>
     </form>
   );
 }

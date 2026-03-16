@@ -3,7 +3,7 @@
 import ApplicationForm from "@/app/components/ApplicationForm";
 import OtherPagesHero from "@/app/components/OtherPagesHero";
 // import Footer from "@/app/components/Footer";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import axios from "axios";
 import styles from "./style.module.css";
 import Button from "@/app/components/Button";
@@ -15,6 +15,8 @@ export default function Apply() {
     serialNumber: '',
     pin: ''
   });
+  const [tokenUsed, setTokenUsed] = useState(false);
+  const [applicationStatus, setApplicationStatus] = useState<any>(null);
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
@@ -40,18 +42,36 @@ export default function Apply() {
           setVerified(true);
         } 
         else if (!data.success && data.data.tokenUsed) {
-          setVerifyStatus("This token has already been used. Please contact the admission office.");
+          // Instead of redirect, fetch application status and show form with admission letter button
+          setTokenUsed(true);
+          setVerified(true);
         } else if (!data.success) {
           setVerifyStatus("The token or serial number does not exist in our records.");
         } else {
           setVerifyStatus("Verification failed. Please try again or contact support.");
         }
       } catch (err) {
-        console.log(err);
+
         setVerifyStatus("Network error. Please try again.");
       }
     }
   };
+
+  // On verified and tokenUsed, fetch application status
+  useEffect(() => {
+    const fetchStatus = async () => {
+      const token = localStorage.getItem("token");
+      if (token && tokenUsed) {
+        try {
+          const res = await axios.get(`https://jayone-87f0a69e6159.herokuapp.com/api/status/${token}`);
+          setApplicationStatus(res.data);
+        } catch (e) {
+          setApplicationStatus(null);
+        }
+      }
+    };
+    fetchStatus();
+  }, [tokenUsed, verified]);
 
   return (
     <>
@@ -110,7 +130,10 @@ export default function Apply() {
         </div>
       ) : (
         <>
-          <ApplicationForm />
+          <ApplicationForm 
+            showAdmissionLetter={tokenUsed}
+            applicationStatus={applicationStatus}
+          />
           {/* <Footer /> */}
         </>
       )}

@@ -2,15 +2,16 @@
 import React, { useEffect, useRef, useState } from 'react';
 import Quill from 'quill';
 import 'quill/dist/quill.snow.css';
+import Button from '@/app/components/Button';
 
 interface BlogEditorProps {
   initialContent?: string;
-  onSave: (data: { title: string; image: string; content: string }) => void;
+  onSave: (data: { title: string; image: File | null; content: string }) => void;
 }
 
 export default function BlogEditor({ initialContent, onSave }: BlogEditorProps) {
   const [title, setTitle] = useState('');
-  const [image, setImage] = useState('');
+  const [image, setImage] = useState<File | null>(null);
   const editorRef = useRef<HTMLDivElement | null>(null);
   const quillRef = useRef<Quill | null>(null);
 
@@ -34,6 +35,7 @@ export default function BlogEditor({ initialContent, onSave }: BlogEditorProps) 
       }
     }
   }, [initialContent]);
+  
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -52,16 +54,15 @@ export default function BlogEditor({ initialContent, onSave }: BlogEditorProps) 
         required
       />
       <input
-        type="text"
-        placeholder="Image URL"
-        value={image}
-        onChange={e => setImage(e.target.value)}
+        type="file"
+        accept="image/*"
+        onChange={e => setImage(e.target.files ? e.target.files[0] : null)}
         style={{marginBottom:'1rem',width:'100%',padding:'0.7rem',borderRadius:'8px',border:'1px solid #333'}}
       />
       <div style={{marginBottom:'1rem'}}>
         <div ref={editorRef} style={{background:'#fff', color:'#222', minHeight:'120px', borderRadius:'8px'}} />
       </div>
-      <button type="submit" style={{background:'var(--primary)',color:'#fff',border:'none',borderRadius:'8px',padding:'0.7rem 1.5rem',fontWeight:600,fontSize:'1rem',cursor:'pointer'}}>Save Blog</button>
+      <Button size='md' variant='primary' fullWidth={true} type="submit" >Save Blog</Button>
     </form>
   );
 }

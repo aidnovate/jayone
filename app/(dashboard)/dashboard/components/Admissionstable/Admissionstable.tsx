@@ -6,11 +6,12 @@ import styles from './style.module.css';
 import Button from "@/app/components/Button";
 
 const API_URL = "https://jayone-87f0a69e6159.herokuapp.com/api/applications/";
+// const API_URL = "http://localhost:5000/api/applications/";
 
 const currentYear = new Date().getFullYear();
 const years = ["All", ...Array.from({ length: 5 }, (_, i) => String(currentYear - i))];
 
-type ApplicationStatus = "all" | "pending" | "approved" | "rejected";
+type ApplicationStatus = "all" | "pending" | "admitted" | "declined";
 
 interface PaymentId {
   _id: string;
@@ -61,8 +62,8 @@ interface Pagination {
 
 const STATUS_COLORS: Record<string, { bg: string; color: string }> = {
   pending:  { bg: "#fff8e1", color: "#f59e0b" },
-  approved: { bg: "#e8f5e9", color: "#22c55e" },
-  rejected: { bg: "#fce4ec", color: "#ef4444" },
+  admitted: { bg: "#e8f5e9", color: "#22c55e" },
+  declined: { bg: "#fce4ec", color: "#ef4444" },
 };
 
 function StatusBadge({ status }: { status: string }) {
@@ -151,7 +152,7 @@ function ApplicationModal({
 }: {
   application: Application;
   onClose: () => void;
-  onStatusChange: (id: string, status: "approved" | "rejected") => Promise<void>;
+  onStatusChange: (id: string, status: "admitted" | "declined") => Promise<void>;
   onDelete: (id: string) => Promise<void>;
 }) {
   const [actionLoading, setActionLoading] = useState<string | null>(null);
@@ -169,11 +170,18 @@ function ApplicationModal({
     if (e.target === e.currentTarget) onClose();
   };
 
-  const handleStatus = async (status: "approved" | "rejected") => {
+  const handleStatus = async (status: "admitted" | "declined") => {
     setActionLoading(status);
-    await onStatusChange(application._id, status);
-    setLocalStatus(status);
-    setActionLoading(null);
+    try {
+      // Make request to local backend for approve/reject
+      await axios.post(`${API_URL}${application._id}`, { status });
+      await onStatusChange(application._id, status);
+      setLocalStatus(status);
+    } catch {
+      alert(`Failed to ${status} application. Please try again.`);
+    } finally {
+      setActionLoading(null);
+    }
   };
 
   const handleDelete = async () => {
@@ -302,42 +310,42 @@ function ApplicationModal({
 
               {/* Approve */}
               <button
-                onClick={() => handleStatus("approved")}
-                disabled={!!actionLoading || localStatus === "approved"}
+                onClick={() => handleStatus("admitted")}
+                disabled={!!actionLoading || localStatus === "admitted"}
                 style={{
-                  background: localStatus === "approved" ? "#e8f5e9" : "#22c55e",
-                  color: localStatus === "approved" ? "#22c55e" : "#fff",
+                  background: localStatus === "admitted" ? "#e8f5e9" : "#22c55e",
+                  color: localStatus === "admitted" ? "#22c55e" : "#fff",
                   border: "1px solid #22c55e",
                   borderRadius: 8,
                   padding: "7px 18px",
                   fontSize: "0.85rem",
                   fontWeight: 600,
-                  cursor: (actionLoading || localStatus === "approved") ? "not-allowed" : "pointer",
-                  opacity: (actionLoading || localStatus === "approved") ? 0.6 : 1,
+                  cursor: (actionLoading || localStatus === "admitted") ? "not-allowed" : "pointer",
+                  opacity: (actionLoading || localStatus === "admitted") ? 0.6 : 1,
                   transition: "all 0.15s",
                 }}
               >
-                {actionLoading === "approved" ? "Approving…" : "✓ Approve"}
+                {actionLoading === "admitted" ? "Admitting…" : "✓ Admit"}
               </button>
 
-              {/* Reject */}
+              {/* Decline */}
               <button
-                onClick={() => handleStatus("rejected")}
-                disabled={!!actionLoading || localStatus === "rejected"}
+                onClick={() => handleStatus("declined")}
+                disabled={!!actionLoading || localStatus === "declined"}
                 style={{
-                  background: localStatus === "rejected" ? "#fce4ec" : "#fff",
+                  background: localStatus === "declined" ? "#fce4ec" : "#fff",
                   color: "#ef4444",
                   border: "1px solid #ef4444",
                   borderRadius: 8,
                   padding: "7px 18px",
                   fontSize: "0.85rem",
                   fontWeight: 600,
-                  cursor: (actionLoading || localStatus === "rejected") ? "not-allowed" : "pointer",
-                  opacity: (actionLoading || localStatus === "rejected") ? 0.6 : 1,
+                  cursor: (actionLoading || localStatus === "declined") ? "not-allowed" : "pointer",
+                  opacity: (actionLoading || localStatus === "declined") ? 0.6 : 1,
                   transition: "all 0.15s",
                 }}
               >
-                {actionLoading === "rejected" ? "Rejecting…" : "✕ Reject"}
+                {actionLoading === "declined" ? "Declining…" : "✕ Decline"}
               </button>
 
               {/* Delete — pushed to the right */}
@@ -435,7 +443,7 @@ export default function AdmissionsTable() {
     fetchApplications(page);
   }, [page, fetchApplications]);
 
-  const handleStatusChange = async (id: string, status: "approved" | "rejected") => {
+  const handleStatusChange = async (id: string, status: "admitted" | "declined") => {
     try {
       await axios.patch(`${API_URL}${id}`, { applicationStatus: status });
       // Update both the list and the open modal's data
@@ -512,7 +520,7 @@ export default function AdmissionsTable() {
           value={statusFilter}
           onChange={e => setStatusFilter(e.target.value as ApplicationStatus)}
         >
-          {(["all", "pending", "approved", "rejected"] as ApplicationStatus[]).map(s => (
+          {(["all", "pending", "admitted", "declined"] as ApplicationStatus[]).map(s => (
             <option key={s} value={s}>{s.charAt(0).toUpperCase() + s.slice(1)}</option>
           ))}
         </select>

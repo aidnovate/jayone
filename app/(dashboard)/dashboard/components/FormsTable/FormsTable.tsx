@@ -71,7 +71,7 @@ export default function FormsTable() {
     axios.get(API_URL)
       .then(res => {
         const data = res.data;
-        console.log('Fetched forms:', data.data);
+
         setForms(Array.isArray(data.data) ? data.data : []);
         setLoading(false);
       })
@@ -93,7 +93,7 @@ export default function FormsTable() {
   const purchased = filtered.filter(f => !f.tokenUsed);
   const used = filtered.filter(f => f.tokenUsed);
 
-  console.log('Filtered forms:', filtered);
+
 
   return (
     <div>

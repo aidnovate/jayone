@@ -1,6 +1,7 @@
 'use client'
 
 import React from "react";
+import { jsPDF } from "jspdf";
 import styles from "./style.module.css";
 import Button from "../Button";
 
@@ -81,7 +82,14 @@ const STEPS = [
 const CERT_TYPES = ["Degree", "Diploma", "WASSCE", "Others"];
 const MARITAL_STATUSES = ["Single", "Married", "Divorced", "Widowed"];
 
-export default function ApplicationForm() {
+type ApplicationFormProps = {
+  showAdmissionLetter?: boolean;
+  applicationStatus?: any;
+};
+
+
+export default function ApplicationForm({ showAdmissionLetter = false, applicationStatus }: ApplicationFormProps) {
+  // Helper to generate and download PDF of the form
   const [step, setStep] = React.useState(1);
   const [submitted, setSubmitted] = React.useState(false);
   const [photoPreview, setPhotoPreview] = React.useState<string | null>(null);
@@ -132,14 +140,19 @@ export default function ApplicationForm() {
           form.append(key, value as string);
         }
       });
+
       const res = await fetch("https://jayone-87f0a69e6159.herokuapp.com/api/applications/submit", {
         method: "POST",
         body: form
       });
+
       const data = await res.json();
       if (data.success) {
-        setSuccessMsg("Your application has been submitted. A copy has been sent to your email. We will review it and get in touch at " + formData.email + " shortly.");
-        setSubmitted(true);
+        // Save form data and photo preview to localStorage for the success page
+        const saveData = { ...formData, photoPreview };
+        localStorage.setItem("applicationFormData", JSON.stringify(saveData));
+        // Redirect to success page
+        window.location.href = "/admission/apply/success";
       } else {
         setSuccessMsg("Submission failed. Please try again or contact support.");
       }
@@ -366,8 +379,8 @@ export default function ApplicationForm() {
                 </div>
 
                 <div className={styles.buttonGroup}>
-                  <Button variant="primary"  onClick={() => setStep(2)}>← Back</Button>
-                  <Button variant="primary"  disabled={!formData.program} onClick={() => setStep(4)}>Continue →</Button>
+                  <Button variant="primary" onClick={() => setStep(2)}>← Back</Button>
+                  <Button variant="primary" disabled={!formData.program} onClick={() => setStep(4)}>Continue →</Button>
                 </div>
               </div>
             )}
@@ -468,28 +481,6 @@ export default function ApplicationForm() {
                   </div>
                 </div>
 
-                {/* <div className={styles.summaryCard}>
-                  <h3 className={styles.summaryTitle}>Application Summary</h3>
-                  <div className={styles.summaryGrid}>
-                    <div className={styles.summaryItem}>
-                      <span className={styles.summaryItemLabel}>Name</span>
-                      <span className={styles.summaryItemValue}>{formData.firstName} {formData.surname}</span>
-                    </div>
-                    <div className={styles.summaryItem}>
-                      <span className={styles.summaryItemLabel}>Email</span>
-                      <span className={styles.summaryItemValue}>{formData.email}</span>
-                    </div>
-                    <div className={styles.summaryItem}>
-                      <span className={styles.summaryItemLabel}>Phone</span>
-                      <span className={styles.summaryItemValue}>{formData.telephone}</span>
-                    </div>
-                    <div className={styles.summaryItem}>
-                      <span className={styles.summaryItemLabel}>Program</span>
-                      <span className={styles.summaryItemValue}>{PROGRAMS.find((p) => p.id === formData.program)?.label || "—"}</span>
-                    </div>
-                  </div>
-                </div> */}
-
                 <div className={styles.buttonGroup}>
                   <Button variant="primary" onClick={() => setStep(5)}>← Back</Button>
                   <Button
@@ -503,22 +494,8 @@ export default function ApplicationForm() {
               </div>
             )}
           </>
-        ) : (
-          <div className={styles.successScreen}>
-            <div className={styles.successIcon}>✓</div>
-            <h2 className={styles.successTitle}>Application Submitted</h2>
-            <p className={styles.successText}>
-              {successMsg || (
-                <>
-                  Thank you, <strong>{formData.firstName}</strong>. Your application has been received.
-                  We will review it and get in touch at <strong>{formData.email}</strong> shortly.
-                </>
-              )}
-            </p>
-            <div className={styles.successDivider} />
-            <p className={styles.successBrand}>Jayone Prestige School of Fashion</p>
-          </div>
-        )}
+        ) : null
+      }
       </main>
     </div>
   );

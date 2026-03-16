@@ -1,6 +1,7 @@
 import React, { useRef, useState } from 'react';
 import Quill from 'quill';
 import 'quill/dist/quill.snow.css';
+import Button from '@/app/components/Button';
 
 export default function ProgramEditor({ initialData, onSave }: {
   initialData?: any;
@@ -11,10 +12,10 @@ export default function ProgramEditor({ initialData, onSave }: {
   const [overview, setOverview] = useState(initialData?.overview || '');
   const [learn, setLearn] = useState(initialData?.learn || ['']);
   const [features, setFeatures] = useState(initialData?.features || [{ heading: '', text: '' }]);
-  const [career, setCareer] = useState(initialData?.career || '');
+  const [career, setCareer] = useState(initialData?.career || ['']);
   const [structure, setStructure] = useState(initialData?.structure || '');
   const overviewRef = useRef<HTMLDivElement | null>(null);
-  const careerRef = useRef<HTMLDivElement | null>(null);
+  // Removed careerRef, no longer needed
   const structureRef = useRef<HTMLDivElement | null>(null);
   const quillRefs = useRef<any>({});
 
@@ -23,15 +24,19 @@ export default function ProgramEditor({ initialData, onSave }: {
       quillRefs.current.overview = new Quill(overviewRef.current, { theme: 'snow' });
       if (overview) quillRefs.current.overview.root.innerHTML = overview;
     }
-    if (careerRef.current && !quillRefs.current.career) {
-      quillRefs.current.career = new Quill(careerRef.current, { theme: 'snow' });
-      if (career) quillRefs.current.career.root.innerHTML = career;
-    }
     if (structureRef.current && !quillRefs.current.structure) {
       quillRefs.current.structure = new Quill(structureRef.current, { theme: 'snow' });
       if (structure) quillRefs.current.structure.root.innerHTML = structure;
     }
-  }, [overview, career, structure]);
+  }, [overview, structure]);
+  // Career array handlers
+  const handleCareerChange = (idx: number, value: string) => {
+    const updated = [...career];
+    updated[idx] = value;
+    setCareer(updated);
+  };
+  const addCareer = () => setCareer([...career, '']);
+  const removeCareer = (idx: number) => setCareer(career.filter((_: string, i: number) => i !== idx));
 
   const handleLearnChange = (idx: number, value: string) => {
     const updated = [...learn];
@@ -57,7 +62,7 @@ export default function ProgramEditor({ initialData, onSave }: {
       overview: quillRefs.current.overview?.root.innerHTML || '',
       learn,
       features,
-      career: quillRefs.current.career?.root.innerHTML || '',
+      career,
       structure: quillRefs.current.structure?.root.innerHTML || '',
     });
   };
@@ -93,13 +98,19 @@ export default function ProgramEditor({ initialData, onSave }: {
       </div>
       <div style={{marginBottom:'1rem'}}>
         <label>Career Opportunities</label>
-        <div ref={careerRef} style={quillStyle} />
+        {career.map((item: string, idx: number) => (
+          <div key={idx} style={{display:'flex',alignItems:'center',marginBottom:'0.5rem'}}>
+            <input type="text" value={item} onChange={e => handleCareerChange(idx, e.target.value)} style={{flex:1,padding:'0.5rem',borderRadius:'6px',border:'1px solid #333'}} />
+            <button type="button" onClick={() => removeCareer(idx)} style={removeBtnStyle}>Remove</button>
+          </div>
+        ))}
+        <button type="button" onClick={addCareer} style={addBtnStyle}>Add</button>
       </div>
       <div style={{marginBottom:'1rem'}}>
         <label>Program Structure</label>
         <div ref={structureRef} style={quillStyle} />
       </div>
-      <button type="submit" style={buttonStyle}>Save Program</button>
+      <Button type="submit" variant='primary' fullWidth={true} size='md'>Save Program</Button>
     </form>
   );
 }

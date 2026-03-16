@@ -47,7 +47,7 @@ function PaymentContent() {
       if (!data.success) throw new Error(data.message || "Failed to initialize payment");
       // 2. Redirect to Paystack checkout
 
-      console.log("Reference:", data);
+
       window.location.href = data.data.authorization_url;
     } catch (err: any) {
       alert(err.message || "Payment initialization failed");

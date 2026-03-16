@@ -1,0 +1,327 @@
+/* ── Layout ─────────────────────────────────────────────────── */
+
+.header {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1rem;
+  background-color: #fff;
+  padding: 10px;
+  box-sizing: border-box;
+  border-radius: 8px;
+}
+
+.header h2 {
+  margin: 0;
+  padding: 0;
+}
+
+/* ── Table ──────────────────────────────────────────────────── */
+
+.table {
+  width: 100%;
+  border-collapse: collapse;
+  background: #fff;
+  color: var(--text);
+  font-size: 1rem;
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 2px 16px rgba(0, 0, 0, 0.10);
+}
+
+.table th,
+.table td {
+  padding: 1rem 0.7rem;
+  text-align: left;
+  border-bottom: 1px solid var(--color-primary-200);
+}
+
+.table th {
+  background: var(--color-primary-50);
+  color: var(--color-black);
+}
+
+.table tr:last-child td {
+  border-bottom: none;
+}
+
+/* ── Thumbnail strip in table row ───────────────────────────── */
+
+.thumbRow {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.image {
+  width: 56px;
+  height: 40px;
+  object-fit: cover;
+  border-radius: 6px;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.08);
+}
+
+.moreTag {
+  font-size: 0.78rem;
+  font-weight: 600;
+  color: var(--color-primary-500, #7c3aed);
+  background: var(--color-primary-50, #f5f3ff);
+  border-radius: 20px;
+  padding: 2px 10px;
+  white-space: nowrap;
+}
+
+/* ── Action buttons ─────────────────────────────────────────── */
+
+.actionBtn {
+  background: none;
+  border: none;
+  color: var(--color-black);
+  margin-right: 0.5rem;
+  cursor: pointer;
+  padding: 0.3rem;
+  border-radius: 6px;
+  transition: background 0.2s;
+}
+
+.actionBtn:hover {
+  background: var(--color-primary-500);
+  color: #fff;
+}
+
+/* ── View modal — image grid ────────────────────────────────── */
+
+.imageGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+  gap: 10px;
+  margin-top: 0.5rem;
+  max-height: 420px;
+  overflow-y: auto;
+  padding-right: 4px;
+}
+
+.gridItem {
+  position: relative;
+  border-radius: 8px;
+  overflow: hidden;
+  aspect-ratio: 1;
+  background: #f3f3f3;
+}
+
+.gridImg {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  cursor: zoom-in;
+  transition: transform 0.2s;
+}
+
+.gridImg:hover {
+  transform: scale(1.04);
+}
+
+.gridDeleteBtn {
+  position: absolute;
+  top: 5px;
+  right: 5px;
+  background: rgba(0, 0, 0, 0.55);
+  border: none;
+  color: #fff;
+  border-radius: 50%;
+  width: 26px;
+  height: 26px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  opacity: 0;
+  transition: opacity 0.2s;
+}
+
+.gridItem:hover .gridDeleteBtn {
+  opacity: 1;
+}
+
+/* ── Upload form ────────────────────────────────────────────── */
+
+.uploadForm {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.formGroup {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.formLabel {
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: var(--color-black, #111);
+}
+
+.formInput {
+  padding: 0.6rem 0.85rem;
+  border: 1.5px solid var(--color-primary-200, #ddd);
+  border-radius: 8px;
+  font-size: 0.95rem;
+  outline: none;
+  transition: border-color 0.2s;
+}
+
+.formInput:focus {
+  border-color: var(--color-primary-500, #7c3aed);
+}
+
+.fileDropzone {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  border: 2px dashed var(--color-primary-200, #ccc);
+  border-radius: 10px;
+  padding: 1.5rem 1rem;
+  cursor: pointer;
+  color: #666;
+  font-size: 0.9rem;
+  transition: border-color 0.2s, background 0.2s;
+}
+
+.fileDropzone:hover {
+  border-color: var(--color-primary-500, #7c3aed);
+  background: var(--color-primary-50, #f9f7ff);
+}
+
+/* ── Upload preview grid ────────────────────────────────────── */
+
+.previewGrid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.previewItem {
+  position: relative;
+  width: 70px;
+  height: 70px;
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.previewImg {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.previewRemove {
+  position: absolute;
+  top: 3px;
+  right: 3px;
+  background: rgba(0, 0, 0, 0.6);
+  border: none;
+  color: #fff;
+  border-radius: 50%;
+  width: 20px;
+  height: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+}
+
+/* ── Lightbox ───────────────────────────────────────────────── */
+
+.lightboxBackdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.88);
+  z-index: 9999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  animation: fadeIn 0.2s ease;
+}
+
+.lightboxContent {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+  max-width: 90vw;
+}
+
+.lightboxImg {
+  max-width: 80vw;
+  max-height: 80vh;
+  border-radius: 10px;
+  object-fit: contain;
+  box-shadow: 0 8px 40px rgba(0, 0, 0, 0.5);
+}
+
+.lightboxClose {
+  position: absolute;
+  top: -40px;
+  right: 0;
+  background: rgba(255, 255, 255, 0.15);
+  border: none;
+  color: #fff;
+  border-radius: 50%;
+  width: 32px;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.lightboxClose:hover {
+  background: rgba(255, 255, 255, 0.3);
+}
+
+.lightboxNav {
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+}
+
+.lightboxNavBtn {
+  background: rgba(255, 255, 255, 0.15);
+  border: none;
+  color: #fff;
+  border-radius: 50%;
+  width: 38px;
+  height: 38px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.lightboxNavBtn:hover {
+  background: rgba(255, 255, 255, 0.3);
+}
+
+.lightboxCounter {
+  font-size: 0.9rem;
+  color: rgba(255, 255, 255, 0.8);
+  min-width: 50px;
+  text-align: center;
+}
+
+/* ── Animation ──────────────────────────────────────────────── */
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}

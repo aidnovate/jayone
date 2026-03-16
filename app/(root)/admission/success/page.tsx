@@ -3,7 +3,6 @@
 import React, { Suspense, useEffect, useState } from 'react';
 import { useSearchParams } from 'next/navigation';
   import axios from 'axios';
-import Button from '@/app/components/Button';
 
 type PaymentDetails = {
   serialNumber?: string;
@@ -49,7 +48,7 @@ type PaymentDetails = {
               })
                 .then((res) => {
                   const resp = res.data;
-                  console.log("Backend Response:", resp);
+
                   setSaved(true);
                   if (resp.success === false && resp.message === 'This payment reference has already been processed') {
                     setAlreadyProcessed(true);
@@ -101,18 +100,27 @@ type PaymentDetails = {
           </p>
         </div>
       )}
-      {details && !alreadyProcessed && saved && emailSent && (
+      {/* {details && !alreadyProcessed && saved && emailSent && (
         <div style={{ marginTop: 24 }}>
           <h3>Transaction Details</h3>
           <pre style={{ background: '#f4f6fa', padding: 16, borderRadius: 4 }}>{JSON.stringify(details, null, 2)}</pre>
           <p style={{ color: 'green', marginTop: 12 }}>
             Your details have been saved.<br />
-            <Button style={{ marginTop: 16 }} onClick={() => window.location.href = '/admission/apply'}>
+            <Button style={{ marginTop: 16, marginRight: 8 }} onClick={() => { alert('Download Application (to be implemented)'); }}>
+              Download Application
+            </Button>
+            <Button style={{ marginTop: 16, marginRight: 8 }} onClick={() => window.location.href = '/admission/apply'}>
               Proceed to Application Form
             </Button>
+         
+            {details.admissionGranted && (
+              <Button style={{ marginTop: 16 }} onClick={() => { alert('Download Admission Letter (to be implemented)'); }}>
+                Download Admission Letter
+              </Button>
+            )}
           </p>
         </div>
-      )}
+      )} */}
     </div>
   );
 }
