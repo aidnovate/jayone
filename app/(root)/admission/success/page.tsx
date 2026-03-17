@@ -2,7 +2,7 @@
 
 import React, { Suspense, useEffect, useState } from 'react';
 import { useSearchParams } from 'next/navigation';
-  import axios from 'axios';
+import axios from 'axios';
 
 type PaymentDetails = {
   serialNumber?: string;
@@ -10,76 +10,82 @@ type PaymentDetails = {
   [key: string]: any;
 };
 
- function AdmissionSuccessPage() {
+function AdmissionSuccessPage() {
   const searchParams = useSearchParams();
   const reference = searchParams.get('reference');
   const course = searchParams.get('course');
   const fullName = searchParams.get('fullName');
   const email = searchParams.get('email');
   const phone = searchParams.get('phone');
+
   const [status, setStatus] = useState('Verifying payment...');
   const [details, setDetails] = useState<PaymentDetails | null>(null);
   const [saved, setSaved] = useState(false);
-  const [emailSent, setEmailSent] = useState(true);
+  const [emailSent, setEmailSent] = useState(false); // ✅ Fix 1: start false
   const [alreadyProcessed, setAlreadyProcessed] = useState(false);
 
-
   useEffect(() => {
-    if (reference) {
-      axios.post('https://jayone-87f0a69e6159.herokuapp.com/api/paystack/verify', { reference })
-        .then(res => res.data)
-        .then(data => {
-          if (data.success) {
-            setStatus('Payment verified successfully!');
-            setDetails(data.data);
-            // Send user/payment details to backend
-            const amount = data.data.amount / 100; // Convert to GHS
-            const currency = data.data.currency;
-
-            const sendData = async () => {
-              await axios.post('https://jayone-87f0a69e6159.herokuapp.com/api/payments/create', {
-                email,
-                fullName,
-                course,
-                phone,
-                reference,
-                amount,
-                currency
-              })
-                .then((res) => {
-                  const resp = res.data;
-
-                  setSaved(true);
-                  if (resp.success === false && resp.message === 'This payment reference has already been processed') {
-                    setAlreadyProcessed(true);
-                    setDetails(resp.data);
-                  }
-                  if (resp.success === false && resp.message && resp.message.includes('email')) {
-                    setEmailSent(false);
-                  }
-                })
-                .catch((error) => {
-                  console.error("Failed to save payment details", error);
-                  setSaved(false);
-                });
-            };
-            sendData();
-          } else {
-            setStatus('Payment verification failed.');
-          }
-        })
-        .catch(() => {
-          setStatus('Error verifying payment.');
-        });
-    } else {
+    if (!reference) {
       setStatus('No payment reference found.');
+      return;
     }
+
+    axios.post('https://jayone-87f0a69e6159.herokuapp.com/api/paystack/verify', { reference })
+      .then(res => res.data)
+      .then(data => {
+        if (!data.success) {
+          setStatus('Payment verification failed.');
+          return;
+        }
+
+        setStatus('Payment verified successfully!');
+        setDetails(data.data);
+
+        const amount = data.data.amount / 100;
+        const currency = data.data.currency;
+
+        const sendData = async () => {
+          try {
+            const res = await axios.post(
+              'https://jayone-87f0a69e6159.herokuapp.com/api/payments/create',
+              { email, fullName, course, phone, reference, amount, currency }
+            );
+            const resp = res.data;
+
+            setSaved(true); // ✅ always mark attempted
+
+            if (resp.success === false && resp.message === 'This payment reference has already been processed') {
+              setAlreadyProcessed(true);
+              setDetails(resp.data);
+              return;
+            }
+
+            // ✅ Fix 2: set emailSent true on clean success
+            // ✅ Fix 3: check emailSent flag OR message — covers all backend shapes
+            const emailFailed =
+              resp.emailSent === false ||
+              (resp.message && resp.message.toLowerCase().includes('email'));
+
+            setEmailSent(!emailFailed);
+
+          } catch (error) {
+            console.error("Failed to save payment details", error);
+            setSaved(false);
+          }
+        };
+
+        sendData();
+      })
+      .catch(() => {
+        setStatus('Error verifying payment.');
+      });
   }, [reference, course, fullName, email, phone]);
 
   return (
     <div style={{ maxWidth: 500, margin: '60px auto', background: '#fff', padding: 32, borderRadius: 8, boxShadow: '0 2px 8px rgba(0,0,0,0.08)' }}>
       <h1>Payment Status</h1>
       <p>{status}</p>
+
       {alreadyProcessed && details && (
         <div style={{ marginTop: 24 }}>
           <h3>Notice</h3>
@@ -91,7 +97,9 @@ type PaymentDetails = {
           </p>
         </div>
       )}
-      {!emailSent && (
+
+      {/* ✅ Fix 4: only show after a save attempt */}
+      {saved && !emailSent && !alreadyProcessed && (
         <div style={{ marginTop: 24 }}>
           <h3>Email Issue</h3>
           <p style={{ color: 'red' }}>
@@ -100,27 +108,6 @@ type PaymentDetails = {
           </p>
         </div>
       )}
-      {/* {details && !alreadyProcessed && saved && emailSent && (
-        <div style={{ marginTop: 24 }}>
-          <h3>Transaction Details</h3>
-          <pre style={{ background: '#f4f6fa', padding: 16, borderRadius: 4 }}>{JSON.stringify(details, null, 2)}</pre>
-          <p style={{ color: 'green', marginTop: 12 }}>
-            Your details have been saved.<br />
-            <Button style={{ marginTop: 16, marginRight: 8 }} onClick={() => { alert('Download Application (to be implemented)'); }}>
-              Download Application
-            </Button>
-            <Button style={{ marginTop: 16, marginRight: 8 }} onClick={() => window.location.href = '/admission/apply'}>
-              Proceed to Application Form
-            </Button>
-         
-            {details.admissionGranted && (
-              <Button style={{ marginTop: 16 }} onClick={() => { alert('Download Admission Letter (to be implemented)'); }}>
-                Download Admission Letter
-              </Button>
-            )}
-          </p>
-        </div>
-      )} */}
     </div>
   );
 }
