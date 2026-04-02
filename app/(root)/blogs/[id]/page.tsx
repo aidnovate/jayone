@@ -2,7 +2,7 @@
 
 import React, { useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
-import styles from '../blogs/style.module.css';
+import styles from './../style.module.css';
 import OtherPagesHero from '@/app/components/OtherPagesHero/index';
 import Footer from '@/app/components/Footer/index';
 import axios from 'axios';

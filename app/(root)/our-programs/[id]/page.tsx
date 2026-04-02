@@ -1,7 +1,7 @@
 'use client'
 
 import React, { useEffect, useState } from 'react';
-import styles from '../style.module.css';
+import styles from './../style.module.css';
 import OtherPagesHero from '../../../components/OtherPagesHero';
 import Footer from '../../../components/Footer';
 import axios from 'axios';
