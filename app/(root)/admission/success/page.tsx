@@ -21,7 +21,7 @@ function AdmissionSuccessPage() {
   const [status, setStatus] = useState('Verifying payment...');
   const [details, setDetails] = useState<PaymentDetails | null>(null);
   const [saved, setSaved] = useState(false);
-  const [emailSent, setEmailSent] = useState(false); // ✅ Fix 1: start false
+  const [emailSent, setEmailSent] = useState(false);
   const [alreadyProcessed, setAlreadyProcessed] = useState(false);
 
   useEffect(() => {
@@ -52,7 +52,7 @@ function AdmissionSuccessPage() {
             );
             const resp = res.data;
 
-            setSaved(true); // ✅ always mark attempted
+            setSaved(true);
 
             if (resp.success === false && resp.message === 'This payment reference has already been processed') {
               setAlreadyProcessed(true);
@@ -60,12 +60,8 @@ function AdmissionSuccessPage() {
               return;
             }
 
-            // ✅ Fix 2: set emailSent true on clean success
-            // ✅ Fix 3: check emailSent flag OR message — covers all backend shapes
-            const emailFailed =
-              resp.emailSent === false ||
-              (resp.message && resp.message.toLowerCase().includes('email'));
-
+            // ✅ only rely on the explicit flag, not the message string
+            const emailFailed = resp.data?.emailSent === false;
             setEmailSent(!emailFailed);
 
           } catch (error) {
@@ -86,6 +82,29 @@ function AdmissionSuccessPage() {
       <h1>Payment Status</h1>
       <p>{status}</p>
 
+      {/* ✅ Success — email was sent */}
+      {saved && emailSent && !alreadyProcessed && (
+        <div style={{ marginTop: 24, padding: 16, background: '#f0fdf4', border: '1px solid #bbf7d0', borderRadius: 8 }}>
+          <h3 style={{ margin: '0 0 8px', color: '#15803d' }}>✓ Email Sent</h3>
+          <p style={{ color: '#166534', margin: 0 }}>
+            A confirmation email has been sent to <strong>{email}</strong>.<br />
+            Please check your inbox for your <strong>Serial Number</strong> and <strong>PIN (Token)</strong>,
+            which you will need to complete your application form.
+          </p>
+          {details?.serialNumber && (
+            <div style={{ marginTop: 12, padding: 12, background: '#dcfce7', borderRadius: 6 }}>
+              <p style={{ margin: '0 0 4px', color: '#15803d' }}>
+                <strong>Serial Number:</strong> {details.serialNumber}
+              </p>
+              <p style={{ margin: 0, color: '#15803d' }}>
+                <strong>PIN:</strong> {details.pin}
+              </p>
+            </div>
+          )}
+        </div>
+      )}
+
+      {/* Already processed */}
       {alreadyProcessed && details && (
         <div style={{ marginTop: 24 }}>
           <h3>Notice</h3>
@@ -98,7 +117,7 @@ function AdmissionSuccessPage() {
         </div>
       )}
 
-      {/* ✅ Fix 4: only show after a save attempt */}
+      {/* Email failed */}
       {saved && !emailSent && !alreadyProcessed && (
         <div style={{ marginTop: 24 }}>
           <h3>Email Issue</h3>

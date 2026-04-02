@@ -95,8 +95,8 @@ export default function ApplicationForm({ showAdmissionLetter = false, applicati
   const [photoPreview, setPhotoPreview] = React.useState<string | null>(null);
   const [submitting, setSubmitting] = React.useState(false);
   const [successMsg, setSuccessMsg] = React.useState("");
-  const token = localStorage.getItem("token");
-  const serialNumber = localStorage.getItem("serialNumber");
+  const token = typeof window !== 'undefined' ? localStorage.getItem("token") : "";
+  const serialNumber = typeof window !== 'undefined' ? localStorage.getItem("serialNumber") : "";
 
   const [formData, setFormData] = React.useState<FormData>({
     surname: "", firstName: "", otherName: "", gender: "",
@@ -117,6 +117,66 @@ export default function ApplicationForm({ showAdmissionLetter = false, applicati
   const set = (field: keyof FormData, value: string) => {
     setFormData((prev) => ({ ...prev, [field]: value }));
   };
+
+  // If showAdmissionLetter is true, show only the admission letter/download section
+  if (showAdmissionLetter) {
+    return (
+      <div className={styles.wrapper}>
+        <header className={styles.header}>
+          <div className={styles.headerInner}>
+            <p className={styles.headerEyebrow}>Jayone Prestige School of Fashion</p>
+            <h3 className={styles.headerTitle}>Application Submitted</h3>
+          </div>
+        </header>
+        <main className={styles.body}>
+          <div className={styles.step}>
+            <h2 className={styles.stepHeading}>Thank you for your application!</h2>
+            <p className={styles.stepSubheading}>You have already submitted your application. You can download your application form below.</p>
+            <Button
+              variant="primary"
+              onClick={() => {
+                // Try to load saved form data and generate PDF
+                const saved = typeof window !== 'undefined' ? localStorage.getItem("applicationFormData") : null;
+                let data = formData;
+                if (saved) {
+                  try { data = JSON.parse(saved); } catch {}
+                }
+                const doc = new jsPDF();
+                doc.setFontSize(18);
+                doc.text("Jayone Prestige School of Fashion", 10, 15);
+                doc.setFontSize(14);
+                doc.text("Student Application Form", 10, 25);
+                doc.setFontSize(12);
+                let y = 35;
+                Object.entries(data).forEach(([key, value]) => {
+                  if (key !== "passportPhoto") {
+                    doc.text(`${key}: ${value}`, 10, y);
+                    y += 8;
+                    if (y > 270) {
+                      doc.addPage();
+                      y = 15;
+                    }
+                  }
+                });
+                const pdfBlob = doc.output("blob");
+                const pdfUrl = URL.createObjectURL(pdfBlob);
+                const a = document.createElement('a');
+                a.href = pdfUrl;
+                a.download = 'Jayone-Application.pdf';
+                a.click();
+                URL.revokeObjectURL(pdfUrl);
+              }}
+            >
+              Download Application PDF
+            </Button>
+            <div style={{ marginTop: 24 }}>
+              <Button href="/" variant="secondary">Back to Home</Button>
+            </div>
+          </div>
+        </main>
+      </div>
+    );
+  }
 
   const handlePhoto = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
@@ -151,6 +211,51 @@ export default function ApplicationForm({ showAdmissionLetter = false, applicati
         // Save form data and photo preview to localStorage for the success page
         const saveData = { ...formData, photoPreview };
         localStorage.setItem("applicationFormData", JSON.stringify(saveData));
+
+        // Generate PDF using jsPDF
+        const doc = new jsPDF();
+        doc.setFontSize(18);
+        doc.text("Jayone Prestige School of Fashion", 10, 15);
+        doc.setFontSize(14);
+        doc.text("Student Application Form", 10, 25);
+        doc.setFontSize(12);
+        let y = 35;
+        Object.entries(formData).forEach(([key, value]) => {
+          if (key !== "passportPhoto") {
+            doc.text(`${key}: ${value}`, 10, y);
+            y += 8;
+            if (y > 270) {
+              doc.addPage();
+              y = 15;
+            }
+          }
+        });
+
+        // Convert PDF to blob
+        const pdfBlob = doc.output("blob");
+
+        // Send email with PDF attachment (using EmailJS or a backend endpoint)
+        // Example using EmailJS (requires setup):
+        // import emailjs from 'emailjs-com';
+        // const formDataForEmail = new FormData();
+        // formDataForEmail.append('to_email', formData.email);
+        // formDataForEmail.append('pdf', pdfBlob, 'application.pdf');
+        // await emailjs.sendForm('YOUR_SERVICE_ID', 'YOUR_TEMPLATE_ID', formDataForEmail, 'YOUR_USER_ID');
+
+        // Alternatively, POST to a backend endpoint that sends the email
+        // await fetch('/api/send-application-pdf', {
+        //   method: 'POST',
+        //   body: formDataForEmail
+        // });
+
+        // For now, trigger download for user as fallback
+        const pdfUrl = URL.createObjectURL(pdfBlob);
+        const a = document.createElement('a');
+        a.href = pdfUrl;
+        a.download = 'Jayone-Application.pdf';
+        a.click();
+        URL.revokeObjectURL(pdfUrl);
+
         // Redirect to success page
         window.location.href = "/admission/apply/success";
       } else {

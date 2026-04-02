@@ -11,7 +11,7 @@ const API_URL = "https://jayone-87f0a69e6159.herokuapp.com/api/applications/";
 const currentYear = new Date().getFullYear();
 const years = ["All", ...Array.from({ length: 5 }, (_, i) => String(currentYear - i))];
 
-type ApplicationStatus = "all" | "pending" | "admitted" | "declined";
+type ApplicationStatus = "all" | "pending" | "admitted" | "rejected";
 
 interface PaymentId {
   _id: string;
@@ -63,7 +63,7 @@ interface Pagination {
 const STATUS_COLORS: Record<string, { bg: string; color: string }> = {
   pending:  { bg: "#fff8e1", color: "#f59e0b" },
   admitted: { bg: "#e8f5e9", color: "#22c55e" },
-  declined: { bg: "#fce4ec", color: "#ef4444" },
+  rejected: { bg: "#fce4ec", color: "#ef4444" },
 };
 
 function StatusBadge({ status }: { status: string }) {
@@ -152,7 +152,7 @@ function ApplicationModal({
 }: {
   application: Application;
   onClose: () => void;
-  onStatusChange: (id: string, status: "admitted" | "declined") => Promise<void>;
+  onStatusChange: (id: string, status: "admitted" | "rejected") => Promise<void>;
   onDelete: (id: string) => Promise<void>;
 }) {
   const [actionLoading, setActionLoading] = useState<string | null>(null);
@@ -170,14 +170,15 @@ function ApplicationModal({
     if (e.target === e.currentTarget) onClose();
   };
 
-  const handleStatus = async (status: "admitted" | "declined") => {
+  const handleStatus = async (status: "admitted" | "rejected") => {
     setActionLoading(status);
     try {
       // Make request to local backend for approve/reject
-      await axios.post(`${API_URL}${application._id}`, { status });
+      await axios.patch(`${API_URL}${application._id}`, { status })
       await onStatusChange(application._id, status);
       setLocalStatus(status);
-    } catch {
+    } catch(error) {
+      console.log(error);
       alert(`Failed to ${status} application. Please try again.`);
     } finally {
       setActionLoading(null);
@@ -295,7 +296,6 @@ function ApplicationModal({
           <DetailRow label="Heard From" value={application.heardFrom} />
           <DetailRow label="Payment Email" value={application.paymentId?.email} />
           <DetailRow label="Submitted At" value={new Date(application.submittedAt).toLocaleString("en-GB")} />
-
         </div>
 
         {/* Footer actions */}
@@ -307,7 +307,6 @@ function ApplicationModal({
         }}>
           {!confirmDelete ? (
             <div style={{ display: "flex", gap: "0.6rem", alignItems: "center", flexWrap: "wrap" }}>
-
               {/* Approve */}
               <button
                 onClick={() => handleStatus("admitted")}
@@ -328,24 +327,24 @@ function ApplicationModal({
                 {actionLoading === "admitted" ? "Admitting…" : "✓ Admit"}
               </button>
 
-              {/* Decline */}
+              {/* rejected */}
               <button
-                onClick={() => handleStatus("declined")}
-                disabled={!!actionLoading || localStatus === "declined"}
+                onClick={() => handleStatus("rejected")}
+                disabled={!!actionLoading || localStatus === "rejected"}
                 style={{
-                  background: localStatus === "declined" ? "#fce4ec" : "#fff",
+                  background: localStatus === "rejected" ? "#fce4ec" : "#fff",
                   color: "#ef4444",
                   border: "1px solid #ef4444",
                   borderRadius: 8,
                   padding: "7px 18px",
                   fontSize: "0.85rem",
                   fontWeight: 600,
-                  cursor: (actionLoading || localStatus === "declined") ? "not-allowed" : "pointer",
-                  opacity: (actionLoading || localStatus === "declined") ? 0.6 : 1,
+                  cursor: (actionLoading || localStatus === "rejected") ? "not-allowed" : "pointer",
+                  opacity: (actionLoading || localStatus === "rejected") ? 0.6 : 1,
                   transition: "all 0.15s",
                 }}
               >
-                {actionLoading === "declined" ? "Declining…" : "✕ Decline"}
+                {actionLoading === "rejected" ? "Declining…" : "✕ rejected"}
               </button>
 
               {/* Delete — pushed to the right */}
@@ -443,14 +442,15 @@ export default function AdmissionsTable() {
     fetchApplications(page);
   }, [page, fetchApplications]);
 
-  const handleStatusChange = async (id: string, status: "admitted" | "declined") => {
+  const handleStatusChange = async (id: string, status: "admitted" | "rejected") => {
     try {
-      await axios.patch(`${API_URL}${id}`, { applicationStatus: status });
+      await axios.patch(`${API_URL}${id}`, { applicationStatus: status }).then(res => console.log(res));
       // Update both the list and the open modal's data
       setApplications(prev =>
         prev.map(a => a._id === id ? { ...a, applicationStatus: status } : a)
       );
-    } catch {
+    } catch(err) {
+      console.log(err)
       alert("Failed to update status. Please try again.");
     }
   };
@@ -520,7 +520,7 @@ export default function AdmissionsTable() {
           value={statusFilter}
           onChange={e => setStatusFilter(e.target.value as ApplicationStatus)}
         >
-          {(["all", "pending", "admitted", "declined"] as ApplicationStatus[]).map(s => (
+          {(["all", "pending", "admitted", "rejected"] as ApplicationStatus[]).map(s => (
             <option key={s} value={s}>{s.charAt(0).toUpperCase() + s.slice(1)}</option>
           ))}
         </select>

@@ -76,7 +76,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
+    <html lang="en" suppressHydrationWarning>
       <head>
         {/* Local SEO: Google My Business & Social Meta Tags */}
         <meta name="geo.region" content="GH-AH" />
