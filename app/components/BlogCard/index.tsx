@@ -20,7 +20,7 @@ const BlogCard: React.FC<BlogCardProps> = ({ title, summary, image, id }) => (
     <div className={styles.content}>
       <h4 className={styles.title}>{truncate(title, 20)}</h4>
         <div className={styles.desc}>{truncate(summary, 100)}</div>
-      <Link className={styles.readMore} href={id ? `/events/${id}` : '#'} aria-label={`Read more about ${title}`}>Read More &rarr;</Link>
+      <Link className={styles.readMore} href={id ? `/blogs/${id}` : '#'} aria-label={`Read more about ${title}`}>Read More &rarr;</Link>
     </div>
     </div>
   </div>

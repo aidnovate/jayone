@@ -1,105 +1,49 @@
-import React from 'react';
+'use client'
+import React, { useEffect, useState } from 'react';
 import BlogCard from '../../components/BlogCard';
 import styles from './style.module.css';
 import OtherPagesHero from '../../components/OtherPagesHero';
 import Footer from '../../components/Footer';
+import axios from 'axios';
+import Skeleton from '../../components/Skeleton';
 
-const blogPosts = [
-  {
-    id: 1,
-    title: 'How to Start a Fashion Brand',
-    summary: 'Learn the essentials of launching your own fashion brand from scratch.',
-    image: '/images/hero1.jpg',
-  },
-  {
-    id: 2,
-    title: 'Top Tailoring Techniques',
-    summary: 'Discover the best tailoring techniques used by professionals.',
-    image: '/images/hero2.jpg',
-  },
-  {
-    id: 3,
-    title: 'Student Success Stories',
-    summary: 'Read inspiring stories from our successful graduates.',
-    image: '/images/hero3.jpg',
-  },
-  {
-    id: 4,
-    title: 'Upcoming Fashion Trends',
-    summary: 'Stay ahead with the latest trends in the fashion industry.',
-    image: '/images/hero4.png',
-  },
-];
+const BLOG_API = 'https://jayone-87f0a69e6159.herokuapp.com/api/blogs/';
+
 
 export default function BlogPage() {
+  const [blogs, setBlogs] = useState<any[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+
+  useEffect(() => {
+    setLoading(true);
+    axios.get(BLOG_API)
+      .then(res => {
+        setBlogs(res.data.blogs || []);
+        setError(null);
+      })
+      .catch(err => {
+        setError('Failed to load blogs.');
+        setBlogs([]);
+      })
+      .finally(() => setLoading(false));
+  }, []);
+
   return (
     <>
-      <head>
-        {/* BlogPosting Schema for first blog post */}
-        <script
-          type="application/ld+json"
-          suppressHydrationWarning
-          dangerouslySetInnerHTML={{
-            __html: JSON.stringify({
-              "@context": "https://schema.org",
-              "@type": "BlogPosting",
-              "headline": blogPosts[0].title,
-              "description": blogPosts[0].summary,
-              "image": `https://jayoneprestige.com${blogPosts[0].image}`,
-              "author": {
-                "@type": "Organization",
-                "name": "Jayone Prestige School of Fashion"
-              },
-              "publisher": {
-                "@type": "Organization",
-                "name": "Jayone Prestige School of Fashion",
-                "logo": {
-                  "@type": "ImageObject",
-                  "url": "https://jayoneprestige.com/images/hero1.jpg"
-                }
-              },
-              "mainEntityOfPage": {
-                "@type": "WebPage",
-                "@id": "https://jayoneprestige.com/blogs"
-              }
-            })
-          }}
-        />
-        {/* FAQPage Schema */}
-        <script
-          type="application/ld+json"
-          suppressHydrationWarning
-          dangerouslySetInnerHTML={{
-            __html: JSON.stringify({
-              "@context": "https://schema.org",
-              "@type": "FAQPage",
-              "mainEntity": [
-                {
-                  "@type": "Question",
-                  "name": "What programs does Jayone offer?",
-                  "acceptedAnswer": {
-                    "@type": "Answer",
-                    "text": "Fashion Design, Tailoring & Garment Technology, Pattern Making, Fashion Business & Branding."
-                  }
-                },
-                {
-                  "@type": "Question",
-                  "name": "Where is Jayone located?",
-                  "acceptedAnswer": {
-                    "@type": "Answer",
-                    "text": "Kwadaso Estate, Kumasi, Ashanti Region, Ghana."
-                  }
-                }
-              ]
-            })
-          }}
-        />
-      </head>
       <OtherPagesHero title="Our Blog" subtitle="Insights, tips, and stories from the world of fashion education." backgroundImage="/images/hero5.png" />
       <section className={styles.blogs} aria-label="Blog Posts">
-        {blogPosts.map(post => (
-          <BlogCard key={post.id} {...post} />
-        ))}
+        {loading ? (
+          Array.from({ length: 3 }).map((_, i) => <Skeleton key={i} height={250} />)
+        ) : error ? (
+          <div style={{ color: 'red', textAlign: 'center', width: '100%' }}>{error}</div>
+        ) : blogs.length === 0 ? (
+          <div style={{ textAlign: 'center', width: '100%' }}>No blogs found.</div>
+        ) : (
+          blogs.map((post: any) => (
+            <BlogCard key={post._id} id={post._id} title={post.title} summary={post.summary} image={post.imageUrl || '/images/hero1.jpg'} />
+          ))
+        )}
       </section>
       <Footer />
     </>

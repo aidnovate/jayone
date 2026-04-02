@@ -1,111 +1,50 @@
-import React from 'react';
-import EventCard from '../../components/EventCard/index';
+'use client'
+
+import React, { useEffect, useState } from 'react';
+import EventCard from '../../components/EventCard';
 import styles from './style.module.css';
 import OtherPagesHero from '../../components/OtherPagesHero';
 import Footer from '../../components/Footer';
+import axios from 'axios';
+import Skeleton from '../../components/Skeleton';
 
-const events = [
-  {
-    id: 1,
-    title: 'Fashion Business Workshop',
-    date: '2026-03-10',
-    description: 'A hands-on workshop for aspiring fashion entrepreneurs.',
-    image: '/images/hero1.jpg',
-  },
-  {
-    id: 2,
-    title: 'Tailoring Masterclass',
-    date: '2026-04-15',
-    description: 'Learn advanced tailoring techniques from industry experts.',
-    image: '/images/hero2.jpg',
-  },
-  {
-    id: 3,
-    title: 'Student Showcase',
-    date: '2026-05-20',
-    description: 'See the best works from our talented students.',
-    image: '/images/hero3.jpg',
-  },
-  {
-    id: 4,
-    title: 'Fashion Trends Seminar',
-    date: '2026-06-05',
-    description: 'Stay updated with the latest in fashion trends.',
-    image: '/images/hero4.png',
-  },
-];
+const EVENTS_API = 'https://jayone-87f0a69e6159.herokuapp.com/api/events/';
+
 
 export default function EventsPage() {
+  const [events, setEvents] = useState<any[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+
+  useEffect(() => {
+    setLoading(true);
+    axios.get(EVENTS_API)
+      .then(res => {
+        setEvents(res.data.events || []);
+        setError(null);
+      })
+      .catch(() => {
+        setError('Failed to load events.');
+        setEvents([]);
+      })
+      .finally(() => setLoading(false));
+  }, []);
+
   return (
     <>
-      <head>
-        {/* Event Schema for first event */}
-        <script
-          type="application/ld+json"
-          suppressHydrationWarning
-          dangerouslySetInnerHTML={{
-            __html: JSON.stringify({
-              "@context": "https://schema.org",
-              "@type": "Event",
-              "name": events[0].title,
-              "startDate": events[0].date,
-              "description": events[0].description,
-              "image": `https://jayoneprestige.com${events[0].image}`,
-              "location": {
-                "@type": "Place",
-                "name": "Jayone Prestige School of Fashion",
-                "address": {
-                  "@type": "PostalAddress",
-                  "streetAddress": "Kwadaso Estate",
-                  "addressLocality": "Kumasi",
-                  "addressRegion": "Ashanti",
-                  "postalCode": "00233",
-                  "addressCountry": "GH"
-                }
-              },
-              "organizer": {
-                "@type": "Organization",
-                "name": "Jayone Prestige School of Fashion",
-                "url": "https://jayoneprestige.com"
-              }
-            })
-          }}
-        />
-        {/* FAQPage Schema */}
-        <script
-          type="application/ld+json"
-          suppressHydrationWarning
-          dangerouslySetInnerHTML={{
-            __html: JSON.stringify({
-              "@context": "https://schema.org",
-              "@type": "FAQPage",
-              "mainEntity": [
-                {
-                  "@type": "Question",
-                  "name": "How can I attend Jayone events?",
-                  "acceptedAnswer": {
-                    "@type": "Answer",
-                    "text": "Visit our website and register for upcoming events or workshops."
-                  }
-                },
-                {
-                  "@type": "Question",
-                  "name": "Are Jayone events open to the public?",
-                  "acceptedAnswer": {
-                    "@type": "Answer",
-                    "text": "Yes, most events are open to the public. Check event details for specifics."
-                  }
-                }
-              ]
-            })
-          }}
-        />
-      </head>
       <OtherPagesHero title="Events & Workshops" subtitle="Join our upcoming events and workshops to enhance your fashion skills and network with industry professionals." backgroundImage="/images/events.jpeg" />
       <section className={styles.events} aria-label="Events">
-        {events.map(event => (
-          <EventCard key={event.id} {...event} id={event.id} />
-        ))}
+        {loading ? (
+          Array.from({ length: 3 }).map((_, i) => <Skeleton key={i} height={250} />)
+        ) : error ? (
+          <div style={{ color: 'red', textAlign: 'center', width: '100%' }}>{error}</div>
+        ) : events.length === 0 ? (
+          <div style={{ textAlign: 'center', width: '100%' }}>No events found.</div>
+        ) : (
+          events.map((event: any) => (
+            <EventCard key={event._id} id={event._id} title={event.title} date={event.date} description={event.description} image={event.imageUrl || '/images/hero1.jpg'} />
+          ))
+        )}
       </section>
       <Footer />
     </>
