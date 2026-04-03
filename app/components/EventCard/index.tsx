@@ -5,14 +5,15 @@ import Link from 'next/link';
 interface EventCardProps {
   title: string;
   date: string;
-  description: string;
+  content?: string;
+  description?: string;
   image: string;
   id?: number;
 }
 
 
 
-const EventCard: React.FC<EventCardProps> = ({ title, date, description, image, id }) => (
+const EventCard: React.FC<EventCardProps> = ({ title, date, content, description, image, id }) => (
   <div className={styles.card} tabIndex={0} aria-label={title}>
     <div style={{position:'relative', height:'50%'}}>
       <img src={image} alt={title} className={styles.image} />
@@ -21,13 +22,13 @@ const EventCard: React.FC<EventCardProps> = ({ title, date, description, image, 
     <div className={styles.content}>
       <h4 className={styles.title}>{truncate(title, 20)}</h4>
       <div className={styles.date}>{date}</div>
-        <div className={styles.desc}>{truncate(description, 100)}</div>
+      <div className={styles.desc} dangerouslySetInnerHTML={{ __html: truncate(description || content, 100) }} />
       <Link className={styles.readMore} href={id ? `/events/${id}` : '#'} aria-label={`Read more about ${title}`}>Read More &rarr;</Link>
     </div>
   </div>
 );
 
-  const truncate = (text: string, max: number) =>
-    text.length > max ? text.slice(0, max) + '...' : text;
+  const truncate = (text: string | undefined | null, max: number) =>
+    typeof text === 'string' ? (text.length > max ? text.slice(0, max) + '...' : text) : '';
 
 export default EventCard;
