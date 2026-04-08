@@ -8,12 +8,12 @@ interface BlogCardProps {
   summary?: string;
   content?: string;
   image: string;
-  id?: number;
+  _id?: string;
 }
 
 
 
-const BlogCard: React.FC<BlogCardProps> = ({ title, summary, content, image, id }) => (
+const BlogCard: React.FC<BlogCardProps> = ({ title, summary, content, image, _id }) => (
   <div className={styles.card} tabIndex={0} aria-label={title}>
     <div style={{position:'relative', height:'50%'}}>
       <img src={image} alt={title} className={styles.image} />
@@ -22,7 +22,7 @@ const BlogCard: React.FC<BlogCardProps> = ({ title, summary, content, image, id 
     <div className={styles.content}>
       <h4 className={styles.title}>{truncate(title, 20)}</h4>
       <div className={styles.desc} dangerouslySetInnerHTML={{ __html: truncate(summary || content, 100) }} />
-      <Link className={styles.readMore} href={id ? `/blogs/${id}` : '#'} aria-label={`Read more about ${title}`}>Read More &rarr;</Link>
+      <Link className={styles.readMore} href={_id ? `/blogs/${_id}` : '#'} aria-label={`Read more about ${title}`}>Read More &rarr;</Link>
     </div>
   </div>
 );

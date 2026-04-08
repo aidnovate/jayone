@@ -8,12 +8,12 @@ interface EventCardProps {
   content?: string;
   description?: string;
   image: string;
-  id?: number;
+  _id?: string;
 }
 
 
 
-const EventCard: React.FC<EventCardProps> = ({ title, date, content, description, image, id }) => (
+const EventCard: React.FC<EventCardProps> = ({ title, date, content, description, image, _id }) => (
   <div className={styles.card} tabIndex={0} aria-label={title}>
     <div style={{position:'relative', height:'50%'}}>
       <img src={image} alt={title} className={styles.image} />
@@ -23,7 +23,7 @@ const EventCard: React.FC<EventCardProps> = ({ title, date, content, description
       <h4 className={styles.title}>{truncate(title, 20)}</h4>
       <div className={styles.date}>{date}</div>
       <div className={styles.desc} dangerouslySetInnerHTML={{ __html: truncate(description || content, 100) }} />
-      <Link className={styles.readMore} href={id ? `/events/${id}` : '#'} aria-label={`Read more about ${title}`}>Read More &rarr;</Link>
+      <Link className={styles.readMore} href={_id ? `/events/${_id}` : '#'} aria-label={`Read more about ${title}`}>Read More &rarr;</Link>
     </div>
   </div>
 );

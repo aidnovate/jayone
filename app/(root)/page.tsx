@@ -49,16 +49,22 @@ import Link from "next/link";
         useEffect(() => {
           fetch("https://jayone-87f0a69e6159.herokuapp.com/api/blogs")
             .then((res) => res.json())
-            .then((data) => 
-            {
-              console.log("Fetched blogs:", data);
-              setBlogs(Array.isArray(data) ? data.slice(0, 3) : [])
-            }
-            );
+            .then((data) => {
+              // Map _id to id if needed
+              const blogs = Array.isArray(data)
+                ? data.slice(0, 3).map((b) => ({ ...b, id: b.id ?? b._id }))
+                : [];
+              setBlogs(blogs);
+            });
 
           fetch("https://jayone-87f0a69e6159.herokuapp.com/api/events")
             .then((res) => res.json())
-            .then((data) => setEvents(Array.isArray(data) ? data.slice(0, 3) : []));
+            .then((data) => {
+              const events = Array.isArray(data)
+                ? data.slice(0, 3).map((e) => ({ ...e, id: e.id ?? e._id }))
+                : [];
+              setEvents(events);
+            });
         }, []);
 
         return (
