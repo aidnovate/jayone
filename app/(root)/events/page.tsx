@@ -42,7 +42,7 @@ export default function EventsPage() {
           <div style={{ textAlign: 'center', width: '100%' }}>No events found.</div>
         ) : (
           events.map((event: any) => (
-            <EventCard key={event._id} id={event._id} title={event.title} date={event.date} description={event.description} image={event.imageUrl || '/images/hero1.jpg'} />
+            <EventCard key={event._id} _id={event._id} title={event.title} date={event.date} description={event.description} image={event.imageUrl} />
           ))
         )}
       </section>
