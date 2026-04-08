@@ -141,7 +141,7 @@ import Link from "next/link";
                   <div>No blog posts found.</div>
                 ) : (
                   blogs.map((post) => (
-                    <BlogCard key={post._id} {...post} />
+                    <BlogCard key={post.id} {...post} />
                   ))
                 )}
               </div>
@@ -161,7 +161,7 @@ import Link from "next/link";
                   <div>No events found.</div>
                 ) : (
                   events.map((event) => (
-                    <EventCard key={event._id} {...event} />
+                    <EventCard key={event.id} {...event} />
                   ))
                 )}
               </div>
