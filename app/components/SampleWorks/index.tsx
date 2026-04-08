@@ -17,7 +17,14 @@ const SampleWorks = () => {
   useEffect(() => {
     fetch("https://jayone-87f0a69e6159.herokuapp.com/api/galleries/random/pictures")
       .then((res) => res.json())
-      .then((data) => setWorks(data));
+      .then((data) => {
+        if (Array.isArray(data)) {
+          setWorks(data);
+        } else {
+          setWorks([]);
+        }
+      })
+      .catch(() => setWorks([]));
   }, []);
 
   return (
