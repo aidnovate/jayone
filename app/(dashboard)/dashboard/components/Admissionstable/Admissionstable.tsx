@@ -481,7 +481,7 @@ export default function AdmissionsTable() {
 
   const handleDelete = async (id: string) => {
     try {
-      await axios.delete(`${API_URL}${id}`);
+      await axios.delete(`${API_URL}${id}`)
       setApplications(prev => prev.filter(a => a._id !== id));
       setPagination(prev => ({ ...prev, total: prev.total - 1 }));
     } catch {
