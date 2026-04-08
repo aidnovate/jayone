@@ -28,8 +28,6 @@
 
   min-height: 100vh;
   color: var(--ink);
-
-  border: 3px solid red;
 }
 
 /* ── Page wrapper ── */
