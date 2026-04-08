@@ -21,7 +21,14 @@ export default function GalleryPage() {
   useEffect(() => {
     fetch('https://jayone-87f0a69e6159.herokuapp.com/api/galleries')
       .then(res => res.json())
-      .then(data => setGalleries(data));
+      .then(data => {
+        if (Array.isArray(data)) {
+          setGalleries(data);
+        } else {
+          setGalleries([]);
+        }
+      })
+      .catch(() => setGalleries([]));
   }, []);
 
   return (
