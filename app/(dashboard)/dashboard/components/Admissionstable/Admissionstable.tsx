@@ -170,16 +170,16 @@ function ApplicationModal({
     if (e.target === e.currentTarget) onClose();
   };
 
+  const [errorMsg, setErrorMsg] = useState<string | null>(null);
   const handleStatus = async (status: "admitted" | "rejected") => {
     setActionLoading(status);
+    setErrorMsg(null);
     try {
-      // Make request to local backend for approve/reject
       await axios.patch(`${API_URL}${application._id}`, { status })
       await onStatusChange(application._id, status);
       setLocalStatus(status);
     } catch(error) {
-      console.log(error);
-      alert(`Failed to ${status} application. Please try again.`);
+      setErrorMsg(`Failed to ${status} application. Please try again.`);
     } finally {
       setActionLoading(null);
     }
@@ -187,9 +187,15 @@ function ApplicationModal({
 
   const handleDelete = async () => {
     setActionLoading("delete");
-    await onDelete(application._id);
-    setActionLoading(null);
-    onClose();
+    setErrorMsg(null);
+    try {
+      await onDelete(application._id);
+      onClose();
+    } catch {
+      setErrorMsg("Failed to delete application. Please try again.");
+    } finally {
+      setActionLoading(null);
+    }
   };
 
   return (
@@ -216,7 +222,26 @@ function ApplicationModal({
         flexDirection: "column",
         boxShadow: "0 12px 48px rgba(0,0,0,0.2)",
         overflow: "hidden",
+        position: 'relative',
       }}>
+        {errorMsg && (
+          <div style={{
+            background: '#ffeaea',
+            color: '#b71c1c',
+            padding: '0.8rem 1.2rem',
+            borderRadius: 8,
+            margin: '1rem',
+            fontWeight: 600,
+            textAlign: 'center',
+            position: 'absolute',
+            top: 0,
+            left: 0,
+            right: 0,
+            zIndex: 10,
+          }}>
+            {errorMsg}
+          </div>
+        )}
 
         {/* Header */}
         <div style={{
@@ -442,16 +467,15 @@ export default function AdmissionsTable() {
     fetchApplications(page);
   }, [page, fetchApplications]);
 
+  const [errorMsg, setErrorMsg] = useState<string | null>(null);
   const handleStatusChange = async (id: string, status: "admitted" | "rejected") => {
     try {
       await axios.patch(`${API_URL}${id}`, { applicationStatus: status }).then(res => console.log(res));
-      // Update both the list and the open modal's data
       setApplications(prev =>
         prev.map(a => a._id === id ? { ...a, applicationStatus: status } : a)
       );
     } catch(err) {
-      console.log(err)
-      alert("Failed to update status. Please try again.");
+      setErrorMsg("Failed to update status. Please try again.");
     }
   };
 
@@ -461,7 +485,7 @@ export default function AdmissionsTable() {
       setApplications(prev => prev.filter(a => a._id !== id));
       setPagination(prev => ({ ...prev, total: prev.total - 1 }));
     } catch {
-      alert("Failed to delete application. Please try again.");
+      setErrorMsg("Failed to delete application. Please try again.");
     }
   };
 
@@ -494,6 +518,20 @@ export default function AdmissionsTable() {
           onStatusChange={handleStatusChange}
           onDelete={handleDelete}
         />
+      )}
+      {errorMsg && (
+        <div style={{
+          background: '#ffeaea',
+          color: '#b71c1c',
+          padding: '1rem 1.5rem',
+          borderRadius: 8,
+          margin: '1.5rem auto',
+          fontWeight: 600,
+          textAlign: 'center',
+          maxWidth: 500,
+        }}>
+          {errorMsg}
+        </div>
       )}
 
       {/* Filters */}

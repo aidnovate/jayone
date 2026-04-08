@@ -22,9 +22,12 @@ interface Form {
   tokenUsed: boolean;
   createdAt: string; // e.g. "2025-03-10T12:00:00Z",
   emailSend: string; // e.g. "2025-03-10T12:00:00Z",
+  _id?: string; // MongoDB ID
+  id?: string; // In case API returns 'id' instead of '_id'
 }
 
 function Table({ data, title, onDelete }: { data: Form[], title: string, onDelete: (form: Form) => void }) {
+ console.log("Rendering table with data:", data);
   return (
     <div style={{ marginBottom: '2.5rem' }}>
       <h3 style={{ marginBottom: '1rem' }}>{title}</h3>
@@ -83,11 +86,14 @@ export default function FormsTable() {
     setSelected(null);
   };
 
-    // Delete event
+    // Delete forms
   const handleDelete = async (id: string | number) => {
     try {
-      await axios.delete(`${API_URL}${id}`);
-      setForms(prev => prev.filter(form => form._id !== id && form.id !== id));
+      // await axios.delete(`${API_URL}${id}`);
+      setForms(prev => prev.filter(form => 
+
+        form._id !== id && form.id !== id
+      ));
       closeModal();
     } catch (err: any) {
       setError('Failed to delete form');
@@ -150,7 +156,15 @@ export default function FormsTable() {
             <Modal open={modal==='delete'} onClose={closeModal} title="Delete Event">
               <div>Are you sure you want to delete <strong>{selected?.token}</strong>?</div>
               <div style={{marginTop:'1.5rem',display:'flex',gap:'1rem', justifyContent:"center"}}>
-                <Button variant='primary' onClick={() => handleDelete(selected?._id || selected?.id)}>Delete</Button>
+                <Button
+                  variant='primary'
+                  onClick={() => {
+                    const id = selected?._id ?? selected?.id;
+                    if (id !== undefined) handleDelete(id);
+                  }}
+                >
+                  Delete
+                </Button>
                 <Button variant='secondary' onClick={closeModal}>Cancel</Button>
               </div>
             </Modal>
