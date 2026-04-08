@@ -41,7 +41,7 @@ export default function BlogPage() {
           <div style={{ textAlign: 'center', width: '100%' }}>No blogs found.</div>
         ) : (
           blogs.map((post: any) => (
-            <BlogCard key={post._id} id={post._id} title={post.title} summary={post.summary} image={post.imageUrl || '/images/hero1.jpg'} />
+            <BlogCard key={post._id} _id={post._id} title={post.title} summary={post.summary} image={post.imageUrl} />
           ))
         )}
       </section>
