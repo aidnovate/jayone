@@ -321,6 +321,13 @@ export default function ApplicationForm({ showAdmissionLetter = false, applicati
       <main className={styles.body}>
         {!submitted ? (
           <>
+                          <form
+                  className={styles.buttonGroup}
+                  onSubmit={async (e) => {
+                    e.preventDefault();
+                    await handleSubmit();
+                  }}
+                >
             {/* ═══ STEP 1 — Personal Details ═══ */}
             {step === 1 && (
               <div className={styles.step}>
@@ -586,18 +593,19 @@ export default function ApplicationForm({ showAdmissionLetter = false, applicati
                   </div>
                 </div>
 
-                <div className={styles.buttonGroup}>
-                  <Button variant="primary" onClick={() => setStep(5)}>← Back</Button>
+
+                  <Button variant="primary" type="button" onClick={() => setStep(5)}>← Back</Button>
                   <Button
                     variant="primary"
+                    type="submit"
                     disabled={!formData.fashionExperience || !formData.heardFrom || !formData.passportPhoto || submitting}
-                    onClick={handleSubmit}
                   >
                     {submitting ? "Submitting..." : "Submit Application"}
                   </Button>
-                </div>
+               
               </div>
             )}
+             </form>
           </>
         ) : null
       }
