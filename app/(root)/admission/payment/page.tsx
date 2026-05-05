@@ -45,8 +45,7 @@ function PaymentContent() {
 
       const data = await res.data;
       if (!data.success) throw new Error(data.message || "Failed to initialize payment");
-      // 2. Redirect to Paystack checkout
-
+      // 2. Redirect to Paystack checkout`
 
       window.location.href = data.data.authorization_url;
     } catch (err: any) {
