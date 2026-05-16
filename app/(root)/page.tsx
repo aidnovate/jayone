@@ -13,6 +13,7 @@ import Footer from "../components/Footer";
 import BlogCard from '../components/BlogCard';
 import EventCard from '../components/EventCard';
 import Link from "next/link";
+import { STATIC_PROGRAMS } from "../data/courses";
 
 // export default function Home() {
 //   return (
@@ -105,21 +106,14 @@ import Link from "next/link";
               </div>
 
               <div className={style.grid}>
-                <ProgramCard
-                  title="SUITING "
-                  description="Suiting program focuses on precision tailoring and garment construction."
-                  image="/images/hero4.png"
-                />
-                <ProgramCard
-                  title="Tailoring"
-                  description="Professional garment construction and finishing."
-                  image="/images/tailoring.jpeg"
-                />
-                <ProgramCard
-                  title="MAKE UP ARTISTRY"
-                  description="Comprehensive makeup techniques for fashion and beauty."
-                  image="/images/makup.png"
-                />
+                {STATIC_PROGRAMS.map(program => (
+                  <ProgramCard
+                    key={program._id}
+                    title={program.name}
+                    description={program.description}
+                    image={program.imageUrl}
+                  />
+                ))}
               </div>
             </section>
 

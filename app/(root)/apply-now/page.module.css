@@ -1,82 +1,458 @@
-.container {
-  width: 100%;
-  min-height: 60vh;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 4rem 5%;
-  background: linear-gradient(135deg, #f8f9fa 0%, #ffffff 100%);
+/* =============================
+   PAGE WRAPPER
+============================= */
+.pageWrapper {
+  background: var(--color-white);
 }
 
-.content {
+/* =============================
+   SHARED SECTION INNER
+============================= */
+.sectionInner {
   max-width: 900px;
+  margin: 0 auto;
   width: 100%;
-  text-align: center;
 }
 
-.content h1 {
-  font-size: 3rem;
-  margin-bottom: 1rem;
-  color: #1a1a1a;
-  font-weight: 700;
+/* =============================
+   SECTION LABEL & TITLE
+============================= */
+.sectionLabel {
+  display: inline-block;
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.35em;
+  color: var(--color-primary-500);
+  margin-bottom: 16px;
+  font-weight: 600;
 }
 
-.content p {
+.sectionTitle {
+  font-size: clamp(2rem, 4vw, 3rem);
+  color: var(--color-black);
+  margin-bottom: 24px;
+}
+
+/* =============================
+   INTRO SECTION
+============================= */
+.introSection {
+  padding: 80px 5%;
+  background: linear-gradient(135deg, #fffbea 0%, #fff 60%);
+  border-bottom: 1px solid var(--color-gray-300);
+}
+
+.introText {
   font-size: 1.1rem;
-  color: #666;
-  margin-bottom: 3rem;
-  line-height: 1.6;
+  color: var(--color-gray-700);
+  max-width: 65ch;
+  line-height: 1.8;
 }
 
-.buttonGroup {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-  gap: 2rem;
-  margin-top: 3rem;
+/* =============================
+   STEPS SECTION
+============================= */
+.stepsSection {
+  padding: 80px 5%;
+  background: var(--color-white);
 }
 
-.buttonWrapper {
-  padding: 2rem;
-  border-radius: 15px;
-  background: #fff;
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
-  transition: all 0.3s ease;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-}
-
-.buttonWrapper:hover {
-  transform: translateY(-8px);
-  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.12);
-}
-
-.buttonWrapper h3 {
-  font-size: 1.5rem;
-  margin-bottom: 0.8rem;
-  color: #1a1a1a;
-}
-
-.buttonWrapper p {
-  font-size: 0.95rem;
-  color: #888;
-  margin-bottom: 1.5rem;
-}
-
-.buttonWrapper :global(a) {
+.subsectionTitle {
+  font-size: clamp(1.4rem, 3vw, 2rem);
+  color: var(--color-black);
+  margin-bottom: 36px;
+  padding-bottom: 12px;
+  border-bottom: 3px solid var(--color-primary-500);
   display: inline-block;
 }
 
+.stepsGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 24px;
+}
+
+.stepCard {
+  display: flex;
+  align-items: flex-start;
+  gap: 18px;
+  padding: 28px;
+  border-radius: var(--radius-lg);
+  background: var(--color-gray-100);
+  border: 1px solid var(--color-gray-300);
+  transition: box-shadow 0.3s ease, transform 0.3s ease;
+}
+
+.stepCard:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--shadow-lg);
+}
+
+.stepIcon {
+  font-size: 2.2rem;
+  flex-shrink: 0;
+}
+
+.stepContent h4 {
+  font-size: 1.15rem;
+  margin-bottom: 8px;
+  color: var(--color-black);
+}
+
+.stepContent p {
+  font-size: 0.97rem;
+  color: var(--color-gray-700);
+  line-height: 1.6;
+  max-width: none;
+}
+
+.link {
+  color: var(--color-primary-600);
+  font-weight: 600;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+/* =============================
+   COST SECTION
+============================= */
+.costSection {
+  padding: 80px 5%;
+  background: var(--color-gray-100);
+  border-top: 1px solid var(--color-gray-300);
+}
+
+.tableWrapper {
+  overflow-x: auto;
+}
+
+.costTable {
+  width: 100%;
+  border-collapse: collapse;
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  box-shadow: var(--shadow-md);
+}
+
+.costTable thead tr {
+  background: var(--color-primary-500);
+  color: var(--color-black);
+}
+
+.costTable th,
+.costTable td {
+  padding: 18px 24px;
+  text-align: left;
+  font-size: 1rem;
+}
+
+.costTable th {
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  font-size: 0.88rem;
+}
+
+.costTable tbody tr {
+  background: var(--color-white);
+  border-bottom: 1px solid var(--color-gray-300);
+}
+
+.costTable tbody tr:last-child {
+  border-bottom: none;
+}
+
+.price {
+  font-weight: 700;
+  color: var(--color-black);
+  font-size: 1.1rem;
+}
+
+/* =============================
+   NOTE SECTION
+============================= */
+.noteSection {
+  padding: 80px 5%;
+  background: #fffbea;
+  border-top: 1px solid #ffe78a;
+}
+
+.noteCard {
+  background: var(--color-white);
+  border-left: 5px solid var(--color-primary-500);
+  border-radius: var(--radius-lg);
+  padding: 36px 40px;
+  box-shadow: var(--shadow-md);
+}
+
+.noteTitle {
+  font-size: 1.4rem;
+  margin-bottom: 20px;
+  color: var(--color-black);
+}
+
+.noteList {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.noteList li {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  font-size: 0.97rem;
+  color: var(--color-gray-700);
+  line-height: 1.6;
+}
+
+.noteList li::before {
+  content: '✔';
+  color: var(--color-primary-500);
+  font-weight: bold;
+  flex-shrink: 0;
+  margin-top: 2px;
+}
+
+/* =============================
+   PAYMENT SECTION
+============================= */
+.paymentSection {
+  padding: 80px 5%;
+  background: var(--color-white);
+  border-top: 1px solid var(--color-gray-300);
+}
+
+.paymentIntro {
+  font-size: 1rem;
+  color: var(--color-gray-700);
+  margin-bottom: 24px;
+  max-width: 65ch;
+}
+
+.warningBanner {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  background: #fff3cd;
+  border: 1.5px solid #ffc107;
+  border-radius: var(--radius-md);
+  padding: 16px 24px;
+  margin-bottom: 36px;
+  font-size: 1rem;
+  color: #7a5700;
+}
+
+.warningIcon {
+  font-size: 1.4rem;
+  flex-shrink: 0;
+}
+
+.paymentGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 24px;
+}
+
+.paymentCard {
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  box-shadow: var(--shadow-md);
+  border: 1px solid var(--color-gray-300);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.paymentCard:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--shadow-lg);
+}
+
+.paymentCardHeader {
+  background: var(--color-primary-500);
+  padding: 20px 24px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.paymentCardIcon {
+  font-size: 1.8rem;
+}
+
+.paymentCardHeader h4 {
+  font-size: 1.15rem;
+  color: var(--color-black);
+  font-weight: 700;
+}
+
+.paymentCardBody {
+  background: var(--color-white);
+  padding: 24px;
+}
+
+.paymentLabel {
+  font-size: 0.82rem;
+  text-transform: uppercase;
+  letter-spacing: 0.15em;
+  color: var(--color-gray-500);
+  margin-bottom: 8px;
+  max-width: none;
+}
+
+.paymentValue {
+  font-size: 1.6rem;
+  font-weight: 800;
+  color: var(--color-black);
+  letter-spacing: 0.05em;
+  max-width: none;
+}
+
+/* =============================
+   ACCOMMODATION SECTION
+============================= */
+.accommodationSection {
+  padding: 80px 5%;
+  background: var(--color-gray-100);
+  border-top: 1px solid var(--color-gray-300);
+}
+
+.optionalBadge {
+  display: inline-block;
+  font-size: 0.7rem;
+  background: var(--color-primary-200);
+  color: var(--color-primary-700);
+  border-radius: 999px;
+  padding: 2px 10px;
+  margin-left: 10px;
+  vertical-align: middle;
+  font-weight: 600;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+}
+
+.accommodationCard {
+  display: flex;
+  align-items: center;
+  gap: 24px;
+  background: var(--color-white);
+  border-radius: var(--radius-lg);
+  padding: 32px 36px;
+  box-shadow: var(--shadow-md);
+  border: 1px solid var(--color-gray-300);
+}
+
+.accommodationIcon {
+  font-size: 3rem;
+  flex-shrink: 0;
+}
+
+.accommodationCard p {
+  font-size: 1rem;
+  color: var(--color-gray-700);
+  margin-bottom: 16px;
+  max-width: none;
+}
+
+.enquiryBtn {
+  display: inline-block;
+  background: var(--color-primary-500);
+  color: var(--color-black);
+  font-weight: 700;
+  padding: 12px 28px;
+  border-radius: var(--radius-md);
+  text-decoration: none;
+  transition: background 0.25s ease, transform 0.2s ease;
+  font-size: 0.97rem;
+}
+
+.enquiryBtn:hover {
+  background: var(--color-primary-600);
+  transform: translateY(-2px);
+}
+
+/* =============================
+   CTA SECTION
+============================= */
+.ctaSection {
+  padding: 100px 5%;
+  background: var(--color-black);
+  text-align: center;
+}
+
+.ctaInner {
+  max-width: 680px;
+  margin: 0 auto;
+}
+
+.ctaTitle {
+  color: var(--color-white);
+  font-size: clamp(2rem, 4vw, 3rem);
+  margin-bottom: 20px;
+}
+
+.ctaText {
+  color: var(--color-gray-400);
+  font-size: 1.05rem;
+  margin-bottom: 40px;
+  max-width: 55ch;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.ctaBtn {
+  display: inline-block;
+  background: var(--color-primary-500);
+  color: var(--color-black);
+  font-weight: 700;
+  font-size: 1.05rem;
+  padding: 16px 40px;
+  border-radius: var(--radius-md);
+  text-decoration: none;
+  transition: background 0.25s ease, transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.ctaBtn:hover {
+  background: var(--color-primary-400);
+  transform: translateY(-3px);
+  box-shadow: 0 8px 24px rgba(244, 180, 0, 0.35);
+}
+
+/* =============================
+   RESPONSIVE
+============================= */
 @media (max-width: 768px) {
-  .content h1 {
-    font-size: 2rem;
+  .introSection,
+  .stepsSection,
+  .costSection,
+  .noteSection,
+  .paymentSection,
+  .accommodationSection {
+    padding: 60px 6%;
   }
 
-  .content p {
-    font-size: 1rem;
+  .ctaSection {
+    padding: 80px 6%;
   }
 
-  .buttonGroup {
-    grid-template-columns: 1fr;
+  .noteCard {
+    padding: 24px 20px;
+  }
+
+  .accommodationCard {
+    flex-direction: column;
+    text-align: center;
+    padding: 28px 20px;
+  }
+
+  .accommodationIcon {
+    font-size: 2.5rem;
+  }
+
+  .paymentCardHeader,
+  .paymentCardBody {
+    padding: 16px 20px;
   }
 }

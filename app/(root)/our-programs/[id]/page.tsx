@@ -1,32 +1,25 @@
 'use client'
 
 import React, { useEffect, useState } from 'react';
+import { useParams } from 'next/navigation';
 import styles from './../style.module.css';
 import OtherPagesHero from '../../../components/OtherPagesHero';
 import Footer from '../../../components/Footer';
-import axios from 'axios';
 import Skeleton from '../../../components/Skeleton';
+import { STATIC_PROGRAMS } from '../../../data/courses';
 
-const PROGRAMS_API = 'https://jayone-87f0a69e6159.herokuapp.com/api/programs/';
-
-export default function SingleProgramPage({ params }: { params: { id: string } }) {
-  const { id } = params;
+export default function SingleProgramPage() {
+  const params = useParams();
+  const id = params?.id as string;
   const [program, setProgram] = useState<any>(null);
   const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
+    if (!id) return;
     setLoading(true);
-    axios.get(PROGRAMS_API + id)
-      .then(res => {
-        setProgram(res.data.program);
-        setError(null);
-      })
-      .catch(() => {
-        setError('Failed to load program.');
-        setProgram(null);
-      })
-      .finally(() => setLoading(false));
+    const foundProgram = STATIC_PROGRAMS.find(p => p._id === id);
+    setProgram(foundProgram || null);
+    setLoading(false);
   }, [id]);
 
   return (
@@ -35,8 +28,6 @@ export default function SingleProgramPage({ params }: { params: { id: string } }
       <section className={styles.programs} style={{ minHeight: 400, display: 'flex', justifyContent: 'center', alignItems: 'flex-start' }}>
         {loading ? (
           <Skeleton height={350} width={600} />
-        ) : error ? (
-          <div style={{ color: 'red', textAlign: 'center', width: '100%' }}>{error}</div>
         ) : !program ? (
           <div style={{ textAlign: 'center', width: '100%' }}>Program not found.</div>
         ) : (
